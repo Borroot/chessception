@@ -25,12 +25,38 @@ try:
     transcript = dic['alternative'][0]['transcript']
     print(transcript)
 
-    regex = r'.*\b([a-zA-Z])\w* ([1-8]) to(wards)? ([a-zA-Z])\w* ([1-8])'
-    match = re.match(regex, transcript)
-    if match:
+    regex = r'.*\b([a-zA-Z])\w* ([1-8]) to(wards)? ([a-zA-Z])\w* ([1-8]).*'
+    regex2 = r'.*([a-zA-Z])\w*([1-8]) to(wards)? ([a-zA-Z])\w*([1-8]).*'
+    regex3 = r'.*\b([a-zA-Z])\w* (\w+) to(wards)? ([a-zA-Z])\w* (\w+).*'
+    res = [regex,regex2,regex3]
+    match1 = re.search(regex, transcript)
+    match2 = re.search(regex2, transcript)
+    match3 = re.search(regex3, transcript)
+
+    if match1:
         print('{}{} {}{}'.format(match.group(1), match.group(2), match.group(4), match.group(5)))
     else:
-        print('No match.')
+        print('no match1')
+
+    if match2:
+        str1 = match.group(1)
+        str2 = match.group(3)
+        print('{}{}'.format(str1[0] + str1[-1], str2[0] + str2[-1])
+    else:
+        print('no match2')
+
+    if match3:
+        str1 = match.group(2)
+        findNumber = [['one'],['two','to','too'],['three','tree'],['four','for'],['five'],['six'],['seven'],['eight','ate']]
+        number1 = 0
+        number2 = 0
+        for i in range(0,8):
+            for j range(findNumber[i]):
+                if str1 == findNumber[i][j]:
+                    number = i+1
+
+        if number1 != 0:
+            print('{}{} {}{}'.format(match.group(1),str(number1),)
 
 except sr.UnknownValueError:
     print("Google Speech Recognition could not understand audio")
