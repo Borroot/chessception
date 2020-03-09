@@ -22,14 +22,16 @@ def transcribe(recognizer, audio):
         print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
 def extract(transcript):
-    # [A-Z][1-8]        [a-zA-Z]+ \w
-    regex = r'.*\b([a-zA-Z])\w* ([1-8]) to(wards)? ([a-zA-Z])\w* ([1-8])'
-    match = re.match(regex, transcript)
+    # Seperators and positions.
+    sep = r'too?(wards)?'
+    pos = r'\b([a-h])[a-z]* ?([1-8])\b'
+
+    regex = r'.*' + pos + r' ' + sep + r' ' + pos + r'.*'
+    match = re.match(regex, transcript, re.I)
 
     if match:
         move = '{}{} {}{}'.format(match.group(1), match.group(2), match.group(4), match.group(5))
-        move = move.lower()
-        return move
+        return move.lower()
     else:
         raise ValueError('No move could be extracted from the transcript.')
 
