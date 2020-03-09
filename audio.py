@@ -21,19 +21,49 @@ def transcribe(recognizer, audio):
     except sr.RequestError as e:
         print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
+def atoi(alpha):
+    similar = [
+        ['one', 'won'],
+        ['two', 'too', 'to'],
+        ['three', 'tree'],
+        ['four', 'for', 'fore'],
+        ['five', 'hive'],
+        ['six', 'sics'],
+        ['seven'],
+        ['eight', 'ait', 'ate']]
+
+    for index, synonyms in enumerate(similar):
+        for synonym in synonyms:
+            if alpha == synonym:
+                return index + 1
+
+    raise ValueError('No move can be extracted from the transcript.')
+
+def add_pos(move, group1, group2):
+    move.append(group1.lower())
+    if re.match(r'\d', group2):
+        move.append(group2)
+    else:
+        move.append(atoi(group2.lstrip()))
+
+
 def extract(transcript):
     # Seperators and positions.
     sep = r'too?(wards)?'
-    pos = r'\b([a-h])[a-z]* ?([1-8])\b'
+    pos = r'\b([a-h])[a-z]* ?([1-8]| [a-z]+)\b'
 
     regex = r'.*' + pos + r' ' + sep + r' ' + pos + r'.*'
     match = re.match(regex, transcript, re.I)
 
     if match:
-        move = '{}{} {}{}'.format(match.group(1), match.group(2), match.group(4), match.group(5))
-        return move.lower()
+        move = [] # e.g. ['a', 1, 'b', 2]
+        add_pos(move, match.group(1), match.group(2))
+        add_pos(move, match.group(4), match.group(5))
+
+        move = '{}{} {}{}'.format(move[0], move[1], move[2], move[3])
+        return move
     else:
-        raise ValueError('No move could be extracted from the transcript.')
+        raise ValueError('No move can be extracted from the transcript.')
 
 def main():
     recognizer = sr.Recognizer()
@@ -41,3 +71,4 @@ def main():
     # save(audio)
     transcript = transcribe(recognizer, audio)
     move       = extract(transcript)
+    # validate(move)

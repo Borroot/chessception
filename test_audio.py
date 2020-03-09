@@ -132,9 +132,40 @@ def test_extract_upper_lower_seperator():
     for case in cases:
         assert extract(case[0]) == case[1]
 
+def test_extract_synonyms():
+    cases = [
+        ['apple one towards bean 2'  , 'a1 b2'],
+        ['apple won towards bean 2'  , 'a1 b2'],
+
+        ['apple two towards bean 2'  , 'a2 b2'],
+        ['apple too towards bean 2'  , 'a2 b2'],
+        ['apple to towards bean 2'   , 'a2 b2'],
+
+        ['apple three towards bean 2', 'a3 b2'],
+        ['apple tree towards bean 2' , 'a3 b2'],
+
+        ['apple four towards bean 2' , 'a4 b2'],
+        ['apple fore towards bean 2' , 'a4 b2'],
+        ['apple for towards bean 2'  , 'a4 b2'],
+
+        ['apple five towards bean 2' , 'a5 b2'],
+        ['apple hive towards bean 2' , 'a5 b2'],
+
+        ['apple six towards bean 2'  , 'a6 b2'],
+        ['apple sics towards bean 2' , 'a6 b2'],
+
+        ['apple seven towards bean 2', 'a7 b2'],
+
+        ['apple eight towards bean 2', 'a8 b2'],
+        ['apple ait towards bean 2'  , 'a8 b2'],
+        ['apple ate towards bean 2'  , 'a8 b2']]
+
+    for case in cases:
+        assert extract(case[0]) == case[1]
+
 def test_extract_error():
     cases = [
-        ['5 towards bishop 3'],
+        ['apple lol to bean 2', 'a1 b2'],
         ]
 
     with pytest.raises(ValueError):
