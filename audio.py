@@ -1,7 +1,9 @@
 import speech_recognition as sr
 import re
+import sys
 
 def record(recognizer):
+    # mic = sr.Microphone(sample_rate=44100, chunk_size=4096)
     mic = sr.Microphone(sample_rate=44100, chunk_size=4096)
     with mic as source:
         print("Say something!")
@@ -17,9 +19,9 @@ def transcribe(recognizer, audio):
         # dic = recognizer.recognize_google(audio, language='en-GB', show_all=True)
         return recognizer.recognize_google(audio, language='en-GB')
     except sr.UnknownValueError:
-        print("Google Speech Recognition could not understand audio")
+        print("Google Speech Recognition could not understand the audio.", file=sys.stderr)
     except sr.RequestError as e:
-        print("Could not request results from Google Speech Recognition service; {0}".format(e))
+        print("Could not request results from Google Speech Recognition service; {0}".format(e), file=sys.stderr)
 
 def atoi(alpha):
     similar = [
@@ -46,7 +48,6 @@ def add_pos(move, group1, group2):
     else:
         move.append(atoi(group2.lstrip()))
 
-
 def extract(transcript):
     # Seperators and positions.
     sep = r'too?(wards)?'
@@ -70,5 +71,8 @@ def main():
     audio      = record(recognizer)
     # save(audio)
     transcript = transcribe(recognizer, audio)
-    move       = extract(transcript)
+    move       = extract(transcript) # TODO handle error
     # validate(move)
+
+if __name__ == "__main__":
+    main()

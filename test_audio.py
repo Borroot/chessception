@@ -2,42 +2,8 @@ from audio import extract
 import pytest
 
 # Use the following words to test the regex.
-#   a = apple
-#   b = bean
-#   c = carrot
-#   d = date
-#   e = endive
-#   f = fig
-#   g = grape
-#   h = honey
-
-def test_extract_letter_first():
-    cases = [
-        ['apple 1 to apple 2' , 'a1 a2'],
-        ['bean 1 to apple 2'  , 'b1 a2'],
-        ['carrot 1 to apple 2', 'c1 a2'],
-        ['date 1 to apple 2'  , 'd1 a2'],
-        ['endive 1 to apple 2', 'e1 a2'],
-        ['fig 1 to apple 2'   , 'f1 a2'],
-        ['grape 1 to apple 2' , 'g1 a2'],
-        ['honey 1 to apple 2' , 'h1 a2']]
-
-    for case in cases:
-        assert extract(case[0]) == case[1]
-
-def test_extract_letter_second():
-    cases = [
-        ['apple 1 to apple 2' , 'a1 a2'],
-        ['apple 1 to bean 2'  , 'a1 b2'],
-        ['apple 1 to carrot 2', 'a1 c2'],
-        ['apple 1 to date 2'  , 'a1 d2'],
-        ['apple 1 to endive 2', 'a1 e2'],
-        ['apple 1 to fig 2'   , 'a1 f2'],
-        ['apple 1 to grape 2' , 'a1 g2'],
-        ['apple 1 to honey 2' , 'a1 h2']]
-
-    for case in cases:
-        assert extract(case[0]) == case[1]
+#   a = apple  b = bean c = carrot d = date
+#   e = endive f = fig  g = grape  h = honey
 
 def test_extract_number_first():
     cases = [
@@ -63,6 +29,34 @@ def test_extract_number_second():
         ['apple 1 to bean 6', 'a1 b6'],
         ['apple 1 to bean 7', 'a1 b7'],
         ['apple 1 to bean 8', 'a1 b8']]
+
+    for case in cases:
+        assert extract(case[0]) == case[1]
+
+def test_extract_letter_first():
+    cases = [
+        ['apple 1 to apple 2' , 'a1 a2'],
+        ['bean 1 to apple 2'  , 'b1 a2'],
+        ['carrot 1 to apple 2', 'c1 a2'],
+        ['date 1 to apple 2'  , 'd1 a2'],
+        ['endive 1 to apple 2', 'e1 a2'],
+        ['fig 1 to apple 2'   , 'f1 a2'],
+        ['grape 1 to apple 2' , 'g1 a2'],
+        ['honey 1 to apple 2' , 'h1 a2']]
+
+    for case in cases:
+        assert extract(case[0]) == case[1]
+
+def test_extract_letter_second():
+    cases = [
+        ['apple 1 to apple 2' , 'a1 a2'],
+        ['apple 1 to bean 2'  , 'a1 b2'],
+        ['apple 1 to carrot 2', 'a1 c2'],
+        ['apple 1 to date 2'  , 'a1 d2'],
+        ['apple 1 to endive 2', 'a1 e2'],
+        ['apple 1 to fig 2'   , 'a1 f2'],
+        ['apple 1 to grape 2' , 'a1 g2'],
+        ['apple 1 to honey 2' , 'a1 h2']]
 
     for case in cases:
         assert extract(case[0]) == case[1]
@@ -163,11 +157,82 @@ def test_extract_synonyms():
     for case in cases:
         assert extract(case[0]) == case[1]
 
-def test_extract_error():
+def test_extract_combined():
     cases = [
-        ['apple lol to bean 2', 'a1 b2'],
-        ]
+        ['apple 1 towards b2'      , 'a1 b2'],
+        ['a1 towards bean 2'       , 'a1 b2'],
 
-    with pytest.raises(ValueError):
-        for case in cases:
-            extract(case[0])
+        ['apple one towards bean 2', 'a1 b2'],
+        ['apple 1 towards bean two', 'a1 b2']]
+
+    for case in cases:
+        assert extract(case[0]) == case[1]
+
+def test_extract_error_number_short():
+    cases = [
+        'a1 to b0',
+        'a0 to b1',
+
+        'a1 to b9',
+        'a9 to b1',
+
+        'a1 to b99',
+        'a99 to b1']
+
+    for case in cases:
+        with pytest.raises(ValueError):
+            extract(case)
+
+def test_extract_error_number_long():
+    cases = [
+        'apple 1 to bean 0',
+        'apple 0 to bean 1',
+
+        'apple 1 to bean 9',
+        'apple 9 to bean 1',
+
+        'apple 1 to bean 99',
+        'apple 99 to bean 1',
+
+        'apple -1 to bean 1',
+        'apple 1 to bean -1']
+
+    for case in cases:
+        with pytest.raises(ValueError):
+            extract(case)
+
+def test_extract_error_letter_short():
+    cases = [
+        'i1 to a2',
+        'a1 to i2',
+
+        'z1 to a2',
+        'a1 to z2']
+
+    for case in cases:
+        with pytest.raises(ValueError):
+            extract(case)
+
+def test_extract_error_letter_long():
+    cases = [
+        'i1 to a2',
+        'a1 to i2',
+
+        'z1 to a2',
+        'a1 to z2']
+
+    for case in cases:
+        with pytest.raises(ValueError):
+            extract(case)
+
+def test_extract_error_missing():
+    cases = [
+        'a1 to',
+        'to a2',
+
+        'apple 1 to',
+        'to apple 1']
+
+    for case in cases:
+        with pytest.raises(ValueError):
+            extract(case)
