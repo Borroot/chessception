@@ -126,6 +126,60 @@ def test_extract_upper_lower_seperator():
     for case in cases:
         assert extract(case[0]) == case[1]
 
+def test_extract_duplicates_short():
+    cases = [
+        ['c3 a1 towards b2'   , 'a1 b2'],
+        ['a1 towards b2 c3'   , 'a1 b2'],
+        ['c3 a1 towards b2 c3', 'a1 b2']]
+
+    for case in cases:
+        assert extract(case[0]) == case[1]
+
+def test_extract_duplicates_long():
+    cases = [
+        ['carrot 3 apple 1 towards bean 2'         , 'a1 b2'],
+        ['apple 1 towards bean 2 carrot 3'         , 'a1 b2'],
+        ['carrot 3 apple 1 towards bean 2 carrot 3', 'a1 b2']]
+
+    for case in cases:
+        assert extract(case[0]) == case[1]
+
+def test_extract_duplicates_combined():
+    cases = [
+        ['c3 apple 1 towards bean 2'           , 'a1 b2'],
+        ['carrot 3 a1 towards bean 2'          , 'a1 b2'],
+        ['carrot 3 apple 1 towards b2'         , 'a1 b2'],
+        ['c3 a1 towards bean 2'                , 'a1 b2'],
+        ['c3 apple 1 towards b2'               , 'a1 b2'],
+        ['carrot 3 a1 towards b2'              , 'a1 b2'],
+
+        ['a1 towards bean 2 carrot 3'          , 'a1 b2'],
+        ['apple 1 towards b2 carrot 3'         , 'a1 b2'],
+        ['apple 1 towards bean 2 c3'           , 'a1 b2'],
+        ['a1 towards b2 carrot 3'              , 'a1 b2'],
+        ['a1 towards bean 2 c3'                , 'a1 b2'],
+        ['apple 1 towards b2 c3'               , 'a1 b2'],
+
+        ['c3 apple 1 towards bean 2 carrot 3'  , 'a1 b2'],
+        ['carrot 3 a1 towards bean 2 carrot 3' , 'a1 b2'],
+        ['carrot 3 apple 1 towards b2 carrot 3', 'a1 b2'],
+        ['carrot 3 apple 1 towards bean 2 c3'  , 'a1 b2'],
+        ['c3 a1 towards bean 2 carrot 3'       , 'a1 b2'],
+        ['c3 apple 1 towards b2 carrot 3'      , 'a1 b2'],
+        ['c3 apple 1 towards bean 2 c3'        , 'a1 b2'],
+
+        ['carrot 3 a1 towards b2 carrot 3'     , 'a1 b2'],
+        ['carrot 3 a1 towards bean 2 c3'       , 'a1 b2'],
+        ['carrot 3 apple 1 towards b2 c3'      , 'a1 b2'],
+
+        ['carrot 3 a1 towards b2 c3'           , 'a1 b2'],
+        ['c3 apple 1 towards b2 c3'            , 'a1 b2'],
+        ['c3 a1 towards bean 2 c3'             , 'a1 b2'],
+        ['c3 a1 towards b2 carrot 3'           , 'a1 b2']]
+
+    for case in cases:
+        assert extract(case[0]) == case[1]
+
 def test_extract_synonyms():
     cases = [
         ['apple one towards bean 2'  , 'a1 b2'],
