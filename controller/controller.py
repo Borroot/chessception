@@ -22,7 +22,7 @@ class Controller():
     def _init_player(self, mic, color):
         player = self.ui.init_player(color)
         if player == 'human':
-            return Human(mic)
+            return Human(self.ui, mic)
         else: # player == 'computer'
             level = self.ui.init_level()
             time  = level + 1.0
