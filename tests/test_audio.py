@@ -1,4 +1,4 @@
-from audio import extract
+from model.audio import extract
 import pytest
 
 # Use the following words to test the regex.
