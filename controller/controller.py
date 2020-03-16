@@ -26,11 +26,11 @@ class Controller():
     def _init_player(self, color):
         player = self._ui.init_player(color)
         if player == 'human':
-            return Human(self._ui, self._mic)
+            return Human(color, self._ui, self._mic)
         else: # player == 'computer'
             level = self._ui.init_level()
-            time  = level + 0.3
-            return Computer(time)
+            time  = level + 0.5
+            return Computer(color, time)
 
     def _move(self, board, player):
         move = player.move(board)
@@ -44,10 +44,12 @@ class Controller():
         board  = Board()
         onturn = white
         with white, black:
+            self._ui.info_board(board)
             while not board.is_game_over():
+                self._ui.info_onturn(onturn)
                 self._move(board, onturn)
+                self._ui.info_board(board)
                 onturn = white if onturn == black else black
-                print(board)
-            print(board.result())
+            self._ui.info_result(board.result())
 
     # resign() offer_draw()

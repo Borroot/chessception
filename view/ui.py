@@ -1,6 +1,6 @@
 class Ui():
     """
-    This abstract class describes a general user interface for chessception.
+    This abstract class describes a general user interface.
     """
 
     def init_player(self, color):
@@ -34,6 +34,27 @@ class Ui():
     def info_illegal(self, move):
         """
         Show information telling that the move is illegal.
+        """
+
+        raise NotImplementedError("Please implement this method.")
+
+    def info_onturn(self, player):
+        """
+        Show the player who is on turn.
+        """
+
+        raise NotImplementedError("Please implement this method.")
+
+    def info_board(self, board):
+        """
+        Show the board state.
+        """
+
+        raise NotImplementedError("Please implement this method.")
+
+    def info_result(self, result):
+        """
+        Show the result of the game.
         """
 
         raise NotImplementedError("Please implement this method.")

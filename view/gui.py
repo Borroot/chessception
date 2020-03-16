@@ -1,8 +1,9 @@
 from tkinter import *
 
+# TODO Implement all of the functions in this class.
 class Gui():
     """
-    This class provides a graphical user interface for chessception.
+    This class provides a graphical user interface.
     """
 
     def __init__(self):
@@ -31,5 +32,4 @@ class Gui():
         raise NotImplementedError("Please implement this method.")
 
     def info_illegal(self, move):
-        # NOTE This could be useful if the mic does not work well.
         raise NotImplementedError("Please implement this method.")

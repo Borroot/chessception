@@ -4,7 +4,7 @@ import re
 
 class Tui():
     """
-    This class provides a terminal user interface for chessception.
+    This class provides a terminal user interface.
     """
 
     def _ask(self, question, regex):
@@ -38,10 +38,20 @@ class Tui():
         return int(self._ask(question, regex))
 
     def move(self, board):
-        print(board)
         question = 'Please make a move.'
         regex = r'[a-hA-H][1-8][a-hA-H][1-8][rnbq]?'
         return self._ask(question, regex).lower()
 
     def info_illegal(self, move):
         print('The move {} is illegal.'.format(move))
+
+    def info_onturn(self, player):
+        # print('{} is on turn.'.format(player))
+        pass
+
+    def info_board(self, board):
+        print()
+        print(board)
+
+    def info_result(self, result):
+        print('The final result is {}!'.format(result))

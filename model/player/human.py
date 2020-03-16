@@ -6,13 +6,13 @@ class Human(Player):
     This class describes a human player.
     """
 
-    def __init__(self, ui, mic):
-        super().__init__()
+    def __init__(self, color, ui, mic):
+        super().__init__(color)
         self._ui  = ui
         self._mic = mic
 
     def __str__(self):
-        return 'Human'
+        return 'Human (' + super().__str__() + ')'
 
     def __enter__(self):
         return self
