@@ -29,17 +29,17 @@ class Tui():
 
     def init_player(self, color):
         question = 'Please choose a player for {}:\n  (0) Human\n  (1) Computer'.format(color)
-        regex = r'[01]'
+        regex = r'^[01]$'
         return 'human' if self._ask(question, regex) == '0' else 'computer'
 
     def init_level(self):
         question = 'Please choose a difficulity level for the computer.\n  (0) Easy\n  (1) Medium\n  (2) Hard'
-        regex = r'[012]'
+        regex = r'^[012]$'
         return int(self._ask(question, regex))
 
     def move(self, board):
         question = 'Please make a move.'
-        regex = r'[a-hA-H][1-8][a-hA-H][1-8][rnbq]?'
+        regex = r'^[a-hA-H][1-8][a-hA-H][1-8][rnbq]?$'
         return self._ask(question, regex).lower()
 
     def info_illegal(self, move):
