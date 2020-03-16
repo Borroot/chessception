@@ -28,7 +28,8 @@ class Computer(Player):
         return self
 
     def move(self, board):
-        return self.engine.play(board, chess.engine.Limit(time=self.time))
+        result = self.engine.play(board, chess.engine.Limit(time=self.time))
+        return result.move
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.engine.quit()

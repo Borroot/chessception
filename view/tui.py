@@ -25,7 +25,7 @@ class Tui():
                 else:
                     raise ValueError('The response does not answer the question.')
             except ValueError:
-                print('Your response does not answer the question correctly.')
+                print('Please use the correct answering format.\nFormat: {}'.format(regex))
 
     def init_player(self, color):
         question = 'Please choose a player for {}:\n  (0) Human\n  (1) Computer'.format(color)
@@ -36,3 +36,12 @@ class Tui():
         question = 'Please choose a difficulity level for the computer.\n  (0) Easy\n  (1) Medium\n  (2) Hard'
         regex = r'[012]'
         return int(self._ask(question, regex))
+
+    def move(self, board):
+        print(board)
+        question = 'Please make a move.'
+        regex = r'[a-hA-H][1-8][a-hA-H][1-8][rnbq]?'
+        return self._ask(question, regex).lower()
+
+    def info_illegal(self, move):
+        print('The move {} is illegal.'.format(move))

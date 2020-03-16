@@ -12,34 +12,42 @@ class Controller():
     """
 
     def __init__(self, ui, mic, arm):
-        self.ui = Tui() if ui == 'tui' else Gui()
-        self._init_players(mic)
+        self._mic = mic
+        self._ui  = Tui() if ui == 'tui' else Gui()
 
-    def _init_players(self, mic):
-        self.white = self._init_player(mic, 'white')
-        self.black = self._init_player(mic, 'black')
+        white, black = self._init_players()
+        self._game(white, black)
 
-    def _init_player(self, mic, color):
-        player = self.ui.init_player(color)
+    def _init_players(self):
+        white = self._init_player('white')
+        black = self._init_player('black')
+        return white, black
+
+    def _init_player(self, color):
+        player = self._ui.init_player(color)
         if player == 'human':
-            return Human(self.ui, mic)
+            return Human(self._ui, self._mic)
         else: # player == 'computer'
-            level = self.ui.init_level()
-            time  = level + 1.0
+            level = self._ui.init_level()
+            time  = level + 0.3
             return Computer(time)
 
-    def testing():
-        # Just some random testing.
-        board = Board()
-        print(board)
-        # print(board.result())
-        with Computer(0.1) as ai:
+    def _move(self, board, player):
+        move = player.move(board)
+        if move in board.legal_moves:
+            board.push(move)
+        else:
+            self._ui.info_illegal(move)
+            self._move(board, player)
+
+    def _game(self, white, black):
+        board  = Board()
+        onturn = white
+        with white, black:
             while not board.is_game_over():
-                result = ai.move(board)
-                print(result)
-
-                board.push(result.move)
+                self._move(board, onturn)
+                onturn = white if onturn == black else black
                 print(board)
+            print(board.result())
 
-    # startgame()
     # resign() offer_draw()
