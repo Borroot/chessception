@@ -1,7 +1,7 @@
 import chess
 import chess.engine
 
-engine = chess.engine.SimpleEngine.popen_xboard("../sunfish/xboard.py")
+engine = chess.engine.SimpleEngine.popen_uci("../stockfish/src/stockfish")
 board = chess.Board()
 
 while not board.is_game_over():
