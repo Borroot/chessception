@@ -1,6 +1,9 @@
 from model.player.player import Player
 
 class Human(Player):
+    """
+    This class describes a human player.
+    """
 
     def __init__(self, mic):
         super().__init__()
