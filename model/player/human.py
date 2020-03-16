@@ -8,3 +8,6 @@ class Human(Player):
     def __init__(self, mic):
         super().__init__()
         self.mic = mic
+
+    def __str__(self):
+        return 'Human'

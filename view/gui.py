@@ -1,6 +1,9 @@
 from tkinter import *
 
 class Gui():
+    """
+    This class provides a graphical user interface for chessception.
+    """
 
     def __init__(self):
         self.master = Tk()

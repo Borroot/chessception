@@ -20,6 +20,9 @@ class Computer(Player):
         super().__init__()
         self.time = time
 
+    def __str__(self):
+        return 'Computer ({}s)'.format(self.time)
+
     def __enter__(self):
         self.engine = chess.engine.SimpleEngine.popen_uci(_ENGINE_PATH)
         return self
