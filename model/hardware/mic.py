@@ -61,7 +61,7 @@ def extract(transcript):
         add_pos(move, match.group(1), match.group(2))
         add_pos(move, match.group(4), match.group(5))
 
-        move = '{}{} {}{}'.format(move[0], move[1], move[2], move[3])
+        move = '{}{}{}{}'.format(move[0], move[1], move[2], move[3])
         return move
     else:
         raise ValueError('No move can be extracted from the transcript.')

@@ -11,7 +11,7 @@ class Controller():
     between the model and the view (conform to the MVC design pattern).
     """
 
-    def __init__(self, ui, mic):
+    def __init__(self, ui, mic, arm):
         self.ui = Tui() if ui == 'tui' else Gui()
         self._init_players(mic)
 
@@ -23,7 +23,7 @@ class Controller():
         player = self.ui.init_player(color)
         if player == 'human':
             return Human(mic)
-        else:
+        else: # player == 'computer'
             level = self.ui.init_level()
             time  = level + 1.0
             return Computer(time)
@@ -41,11 +41,5 @@ class Controller():
                 board.push(result.move)
                 print(board)
 
-    # Note that 'result' also has
-    #   result.draw_offered
-    #   result.resigned
-
-    # init (initial tests on startup)
-    # setplayer() Human() or Computer(level=medium)
     # startgame()
-    # forfeit() remise()
+    # resign() offer_draw()
