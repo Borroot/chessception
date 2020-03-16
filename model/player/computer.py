@@ -16,7 +16,7 @@ class Computer(Player):
         self._time = time
 
     def __str__(self):
-        return 'Computer (' + super().__str__() + ')'
+        return 'Computer (' + self._color + ')'
 
     def __enter__(self):
         self.engine = chess.engine.SimpleEngine.popen_uci(_ENGINE_PATH)

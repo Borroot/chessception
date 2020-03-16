@@ -12,7 +12,7 @@ class Human(Player):
         self._mic = mic
 
     def __str__(self):
-        return 'Human (' + super().__str__() + ')'
+        return 'Human (' + self._color + ')'
 
     def __enter__(self):
         return self
