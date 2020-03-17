@@ -60,6 +60,9 @@ class Speech():
             return move + self._atoi(group2.lstrip())
 
     def _extract(self, transcript):
+        # TODO Accept roman numbers as numbers.
+        # TODO Accept uppercase numbers like SEVEN.
+        # TODO Accept sentence with no seperator but exact.
         sep = r'too?(wards)?'
         pos = r'\b([a-h])[a-z]* ?([1-8]| [a-z]+)\b'
 
