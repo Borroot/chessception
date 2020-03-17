@@ -27,4 +27,7 @@ class Computer(Player):
         return result.move
 
     def __exit__(self, exc_type, exc_value, traceback):
-        self.engine.quit()
+        try:
+            self.engine.quit()
+        except:
+            pass
