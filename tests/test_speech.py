@@ -5,6 +5,17 @@ import pytest
 #   a = apple  b = bean c = carrot d = date
 #   e = endive f = fig  g = grape  h = honey
 
+def test_extract_exact():
+    cases = [
+        ['apple 1 bean 1'  , 'a1b1'],
+        ['apple i bean 1'  , 'a1b1'],
+        ['apple one bean 1', 'a1b1'],
+        ['apple won bean 1', 'a1b1']]
+
+    speech = Speech()
+    for case in cases:
+        assert speech._extract(case[0]) == case[1]
+
 def test_extract_number_first():
     cases = [
         ['apple 1 to bean 1', 'a1b1'],
