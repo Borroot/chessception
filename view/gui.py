@@ -15,7 +15,6 @@ class Gui(Frame):
         self._master.geometry("800x480")
         self._master.title("Chessception!")
         self._master.mainloop()
-        print('hi')
 
     def _screen_start():
         raise NotImplementedError("Please implement this method.")
@@ -26,19 +25,7 @@ class Gui(Frame):
         # pane.add(btn_start)
 
     def init_player(self, color):
-        # raise NotImplementedError("Please implement this method.")
-        flag = StringVar(self._master)
-        btn_human    = Button(self._master, text='Human'   , command=lambda: flag.set('Human')).pack()
-        btn_computer = Button(self._master, text='Computer', command=lambda: flag.set('Computer')).pack()
-
-        pane = PanedWindow(self._master)
-        pane.pack(fill=BOTH, expand=1)
-        pane.add(btn_human)
-
-        print("waiting...")
-        btn_human.wait_variable(var)
-        print("done waiting.")
-        return 'Human'
+        raise NotImplementedError("Please implement this method.")
 
     def init_level(self):
         raise NotImplementedError("Please implement this method.")
