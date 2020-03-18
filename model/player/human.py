@@ -1,6 +1,6 @@
-from model.player.player import Player
-import chess
 from model.hardware.speech import Speech
+from model.player.player   import Player
+import chess
 
 class Human(Player):
     """
@@ -13,7 +13,7 @@ class Human(Player):
         self._mic = mic
 
     def __str__(self):
-        return 'Human (' + self._color + ')'
+        return self._color + ' (Human)'
 
     def __enter__(self):
         return self
@@ -29,6 +29,9 @@ class Human(Player):
             except:
                 self._ui.info_speech_error()
                 return move(self, board)
+
+    def draw_offer(self):
+        return self._ui.draw_offer()
 
     def __exit__(self, exc_type, exc_value, traceback):
         pass

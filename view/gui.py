@@ -1,7 +1,8 @@
 from tkinter import *
 
 # TODO Implement all of the functions in this class.
-# NOTE Consider switching to PyQt.
+# NOTE Switch to PyQt5.
+# NOTE Do not forget to implement the exceptions for move.
 class Gui(Frame):
     """
     This class provides a graphical user interface.

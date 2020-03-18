@@ -16,18 +16,21 @@ class Computer(Player):
         self._time = time
 
     def __str__(self):
-        return 'Computer (' + self._color + ')'
+        return self._color + ' (Computer)'
 
     def __enter__(self):
-        self.engine = chess.engine.SimpleEngine.popen_uci(_ENGINE_PATH)
+        self._engine = chess.engine.SimpleEngine.popen_uci(_ENGINE_PATH)
         return self
 
     def move(self, board):
-        result = self.engine.play(board, chess.engine.Limit(time=self._time))
+        result = self._engine.play(board, chess.engine.Limit(time=self._time))
         return result.move
+
+    def draw_offer(self):
+        return False
 
     def __exit__(self, exc_type, exc_value, traceback):
         try:
-            self.engine.quit()
+            self._engine.quit()
         except:
             pass

@@ -31,6 +31,15 @@ class Ui():
 
         raise NotImplementedError("Please implement this method.")
 
+    def draw_offer(self, move):
+        """
+        Ask the user if he accepts or declines the offer for a draw.
+
+        :returns: True or False.
+        """
+
+        raise NotImplementedError("Please implement this method.")
+
     def info_illegal(self, move):
         """
         Show information telling that the move is illegal.
@@ -66,9 +75,11 @@ class Ui():
 
         raise NotImplementedError("Please implement this method.")
 
-    def info_result(self, result):
+    def info_winner(self, winner):
         """
-        Show the result of the game.
+        Show the winner of the game.
+
+        :param winner: The winner is None if there is a draw.
         """
 
         raise NotImplementedError("Please implement this method.")
