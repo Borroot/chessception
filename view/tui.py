@@ -38,7 +38,7 @@ class Tui():
                 print('Please use the correct answering format.\nFormat: {}'.format(regex))
 
     def init_player(self, color):
-        question = 'Please choose a player for {}:\n  (0) Human\n  (1) Computer'.format(color)
+        question = 'Please choose a player for {}.\n  (0) Human\n  (1) Computer'.format(color)
         regex = r'^[01]$'
         return 'human' if self._ask(question, regex, False) == '0' else 'computer'
 
