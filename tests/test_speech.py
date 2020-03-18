@@ -35,6 +35,36 @@ def test_extract_number_second():
     for case in cases:
         assert speech._extract(case[0]) == case[1]
 
+def test_extract_number_roman_first():
+    cases = [
+        ['apple i to bean 1', 'a1b1'],
+        ['apple ii to bean 1', 'a2b1'],
+        ['apple iii to bean 1', 'a3b1'],
+        ['apple iv to bean 1', 'a4b1'],
+        ['apple v to bean 1', 'a5b1'],
+        ['apple vi to bean 1', 'a6b1'],
+        ['apple vii to bean 1', 'a7b1'],
+        ['apple viii to bean 1', 'a8b1']]
+
+    speech = Speech()
+    for case in cases:
+        assert speech._extract(case[0]) == case[1]
+
+def test_extract_number_roman_second():
+    cases = [
+        ['apple 1 to bean i', 'a1b1'],
+        ['apple 1 to bean ii', 'a1b2'],
+        ['apple 1 to bean iii', 'a1b3'],
+        ['apple 1 to bean iv', 'a1b4'],
+        ['apple 1 to bean v', 'a1b5'],
+        ['apple 1 to bean vi', 'a1b6'],
+        ['apple 1 to bean vii', 'a1b7'],
+        ['apple 1 to bean viii', 'a1b8']]
+
+    speech = Speech()
+    for case in cases:
+        assert speech._extract(case[0]) == case[1]
+
 def test_extract_letter_first():
     cases = [
         ['apple 1 to apple 2' , 'a1a2'],
@@ -103,6 +133,21 @@ def test_extract_size_long():
     for case in cases:
         assert speech._extract(case[0]) == case[1]
 
+def test_extract_upper_lower_roman():
+    cases = [
+        ['apple I towards bean 2'   , 'a1b2'],
+        ['apple II towards bean 2'  , 'a2b2'],
+        ['apple III towards bean 2' , 'a3b2'],
+        ['apple IV towards bean 2'  , 'a4b2'],
+        ['apple V towards bean 2'   , 'a5b2'],
+        ['apple VI towards bean 2'  , 'a6b2'],
+        ['apple VII towards bean 2' , 'a7b2'],
+        ['apple VIII towards bean 2', 'a8b2']]
+
+    speech = Speech()
+    for case in cases:
+        assert speech._extract(case[0]) == case[1]
+
 def test_extract_upper_lower_short():
     cases = [
         ['a1 towards b2', 'a1b2'],
@@ -131,6 +176,38 @@ def test_extract_upper_lower_seperator():
         ['apple 1 Towards bean 2', 'a1b2'],
         ['apple 1 toWaRDs bean 2', 'a1b2'],
         ['apple 1 TOWARDS bean 2', 'a1b2']]
+
+    speech = Speech()
+    for case in cases:
+        assert speech._extract(case[0]) == case[1]
+
+def test_extract_upper_lower_synonyms():
+    cases = [
+        ['apple ONE towards bean 2'  , 'a1b2'],
+        ['apple WON towards bean 2'  , 'a1b2'],
+
+        ['apple TWO towards bean 2'  , 'a2b2'],
+        ['apple TOO towards bean 2'  , 'a2b2'],
+        ['apple TO towards bean 2'   , 'a2b2'],
+
+        ['apple THREE towards bean 2', 'a3b2'],
+        ['apple TREE towards bean 2' , 'a3b2'],
+
+        ['apple FOUR towards bean 2' , 'a4b2'],
+        ['apple FORE towards bean 2' , 'a4b2'],
+        ['apple FOR towards bean 2'  , 'a4b2'],
+
+        ['apple FIVE towards bean 2' , 'a5b2'],
+        ['apple HIVE towards bean 2' , 'a5b2'],
+
+        ['apple SIX towards bean 2'  , 'a6b2'],
+        ['apple SICS towards bean 2' , 'a6b2'],
+
+        ['apple SEVEN towards bean 2', 'a7b2'],
+
+        ['apple EIGHT towards bean 2', 'a8b2'],
+        ['apple AIT towards bean 2'  , 'a8b2'],
+        ['apple ATE towards bean 2'  , 'a8b2']]
 
     speech = Speech()
     for case in cases:

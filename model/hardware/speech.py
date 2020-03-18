@@ -36,14 +36,14 @@ class Speech():
 
     def _atoi(self, alpha):
         similar = [
-            ['one', 'won'],
-            ['two', 'too', 'to'],
-            ['three', 'tree'],
-            ['four', 'for', 'fore'],
-            ['five', 'hive'],
-            ['six', 'sics'],
-            ['seven'],
-            ['eight', 'ait', 'ate']]
+            ['one'  , 'i'   , 'won'],
+            ['two'  , 'ii'  , 'too', 'to'],
+            ['three', 'iii' , 'tree'],
+            ['four' , 'iv'  , 'for', 'fore'],
+            ['five' , 'v'   , 'hive'],
+            ['six'  , 'vi'  , 'sics'],
+            ['seven', 'vii'],
+            ['eight', 'viii', 'ait', 'ate']]
 
         for index, synonyms in enumerate(similar):
             for synonym in synonyms:
@@ -53,7 +53,8 @@ class Speech():
         raise ValueError('No move can be extracted from the transcript.')
 
     def _pos(self, group1, group2):
-        move = group1.lower()
+        move   = group1.lower()
+        group2 = group2.lower()
         if re.match(r'\d', group2):
             return move + group2
         else:
@@ -63,6 +64,7 @@ class Speech():
         # TODO Accept roman numbers as numbers.
         # TODO Accept uppercase numbers like SEVEN.
         # TODO Accept sentence with no seperator but exact.
+
         sep = r'too?(wards)?'
         pos = r'\b([a-h])[a-z]* ?([1-8]| [a-z]+)\b'
 
