@@ -12,7 +12,7 @@ class Speech():
         audio      = self._record(recognizer)
         # _save(audio)
         transcript = self._transcribe(recognizer, audio)
-        move       = self._extract(transcript) # TODO handle error
+        move       = self._extract(transcript)
         return move
 
     def _record(self, recognizer):

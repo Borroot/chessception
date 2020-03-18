@@ -46,8 +46,13 @@ class Tui():
         print('The move {} is illegal.'.format(move))
 
     def info_onturn(self, player):
-        # print('{} is on turn.'.format(player))
         pass
+
+    def info_speech(self):
+        print('Please say your move.')
+
+    def info_speech_error(self):
+        print('Your speech could not be recognised.')
 
     def info_board(self, board):
         print()

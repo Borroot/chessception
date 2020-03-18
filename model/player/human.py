@@ -1,6 +1,6 @@
 from model.player.player import Player
 import chess
-from model.hardware.speech import Speech as vr
+from model.hardware.speech import Speech
 
 class Human(Player):
     """
@@ -22,14 +22,13 @@ class Human(Player):
         if not self._mic:
             return chess.Move.from_uci(self._ui.move(board))
         else:
-            voiceRec = vr()
+            speech = Speech()
             try:
-                print("Say a move:")
-                move = chess.Move.from_uci(voiceRec.move())
-                return move
-            except (ValueError, TypeError):
-                print("I did not hear you!")
-                return
+                self._ui.info_speech()
+                return chess.Move.from_uci(speech.move())
+            except:
+                self._ui.info_speech_error()
+                return move(self, board)
 
     def __exit__(self, exc_type, exc_value, traceback):
         pass

@@ -45,6 +45,20 @@ class Ui():
 
         raise NotImplementedError("Please implement this method.")
 
+    def info_speech(self):
+        """
+        Show the user has to talk in the microphone.
+        """
+
+        raise NotImplementedError("Please implement this method.")
+
+    def info_speech_error(self):
+        """
+        Show the user that the speech was not recognisable.
+        """
+
+        raise NotImplementedError("Please implement this method.")
+
     def info_board(self, board):
         """
         Show the board state.
