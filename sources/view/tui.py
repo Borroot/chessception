@@ -1,8 +1,9 @@
-from model.exception import ResignException
-from model.exception import DrawOfferException
+from model.game.game import ResignException
+from model.game.game import DrawOfferException
 import re
 
-class Tui():
+
+class Tui:
     """
     This class provides a terminal user interface.
     """
@@ -25,10 +26,11 @@ class Tui():
             try:
                 response = input('> ')
 
-                if ismove and re.match(r'^resign$', response, re.I):
-                    raise ResignException()
-                if ismove and re.match(r'^draw\?$', response, re.I):
-                    raise DrawOfferException()
+                if ismove:
+                    if re.match(r'^resign$', response, re.I):
+                        raise ResignException()
+                    if re.match(r'^draw\?$', response, re.I):
+                        raise DrawOfferException()
 
                 if re.match(regex, response):
                     return response
@@ -74,7 +76,7 @@ class Tui():
         print(board)
 
     def info_winner(self, winner):
-        if winner == None:
+        if winner is None:
             print("It's a draw!")
         else:
             print('The winner is {}!'.format(winner))

@@ -1,4 +1,4 @@
-class Ui():
+class Ui:
     """
     This abstract class describes a general user interface.
     """

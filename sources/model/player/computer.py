@@ -1,7 +1,8 @@
 from model.player.player import Player
 import chess.engine
 
-_ENGINE_PATH = "../stockfish/src/stockfish"
+_ENGINE_PATH = "../../stockfish/src/stockfish"
+
 
 class Computer(Player):
     """

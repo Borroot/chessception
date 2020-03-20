@@ -1,6 +1,7 @@
 from model.hardware.speech import Speech
-from model.player.player   import Player
+from model.player.player import Player
 import chess
+
 
 class Human(Player):
     """
@@ -9,7 +10,7 @@ class Human(Player):
 
     def __init__(self, color, ui, mic):
         super().__init__(color)
-        self._ui  = ui
+        self._ui = ui
         self._mic = mic
 
     def __str__(self):

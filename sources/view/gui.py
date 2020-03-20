@@ -1,5 +1,6 @@
 from tkinter import *
 
+
 # TODO Implement all of the functions in this class.
 # NOTE Switch to PyQt5.
 # NOTE Do not forget to implement the exceptions for move.
@@ -16,7 +17,7 @@ class Gui(Frame):
         self._master.title("Chessception!")
         self._master.mainloop()
 
-    def _screen_start():
+    def _screen_start(self):
         raise NotImplementedError("Please implement this method.")
         # pane = PanedWindow(self.master)
         # pane.pack(fill=BOTH, expand=1)

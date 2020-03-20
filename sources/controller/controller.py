@@ -1,11 +1,12 @@
 from model.player.computer import Computer
 from model.player.human import Human
 
-from model.exception import ResignException
-from model.exception import DrawOfferException
+from model.game.game import ResignException
+from model.game.game import DrawOfferException
 
 from view.gui import Gui
 from view.tui import Tui
+
 from chess import Board
 
 
