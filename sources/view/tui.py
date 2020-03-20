@@ -1,6 +1,24 @@
-from model.game.game import ResignException
-from model.game.game import DrawOfferException
 import re
+
+
+def _ask(question, regex):
+    """
+    Ask the user for input.
+
+    :param question: The question to be displayed to the user.
+    :param regex: The regex to validate the answer of the user.
+    """
+
+    print(question)
+    while True:
+        try:
+            response = input('> ')
+            if re.match(regex, response):
+                return response
+            else:
+                raise ValueError('The response does not answer the question.')
+        except ValueError:
+            print('Please use the correct answering format.\nFormat: {}'.format(regex))
 
 
 class Tui:
@@ -8,56 +26,39 @@ class Tui:
     This class provides a terminal user interface.
     """
 
-    def _ask(self, question, regex, ismove):
-        """
-        Ask the user for input.
+    def __init__(self, controller, games):
+        self._controller = controller
+        self.show_games(games)
 
-        :param question: The question to be displayed to the user.
-        :param regex: The regex to validate the answer of the user.
-        :param ismove: Whether a request for a move is made. This is
-        useful since the user is then allowed to resign or offer a draw.
-
-        :raises ResignException:    If 'resign' is typed in and ismove is true.
-        :raises DrawOfferException: If 'draw?' is typed in and ismove is true.
-        """
-
-        print(question)
-        while True:
-            try:
-                response = input('> ')
-
-                if ismove:
-                    if re.match(r'^resign$', response, re.I):
-                        raise ResignException()
-                    if re.match(r'^draw\?$', response, re.I):
-                        raise DrawOfferException()
-
-                if re.match(regex, response):
-                    return response
-                else:
-                    raise ValueError('The response does not answer the question.')
-            except ValueError:
-                print('Please use the correct answering format.\nFormat: {}'.format(regex))
+    def show_games(self, games):
+        question = 'Please choose a game.\n'
+        for index, game in enumerate(games):
+            question = question + '  ({0}) {1}'.format(index, game)
+            if index is not len(games) - 1:
+                question = question + '\n'
+        regex = r'^[0-' + str(len(games) - 1) + r']$'
+        answer = int(_ask(question, regex))
+        self._controller.event_game(games[answer])
 
     def init_player(self, color):
         question = 'Please choose a player for {}.\n  (0) Human\n  (1) Computer'.format(color)
         regex = r'^[01]$'
-        return 'human' if self._ask(question, regex, False) == '0' else 'computer'
+        return 'human' if _ask(question, regex) == '0' else 'computer'
 
     def init_level(self):
         question = 'Please choose a difficulity level.\n  (0) Easy\n  (1) Medium\n  (2) Hard'
         regex = r'^[012]$'
-        return int(self._ask(question, regex, False))
+        return int(_ask(question, regex))
 
     def move(self, board):
         question = 'Please make a move.'
         regex = r'^[a-hA-H][1-8][a-hA-H][1-8][rnbq]?$'
-        return self._ask(question, regex, True).lower()
+        return _ask(question, regex).lower()
 
     def draw_offer(self):
         question = 'A draw has been offered.\n  (0) Decline\n  (1) Accept.'
         regex = r'^[01]$'
-        return True if self._ask(question, regex, False) == '1' else False
+        return True if _ask(question, regex) == '1' else False
 
     def info_illegal(self, move):
         print('The move {} is illegal.'.format(move))

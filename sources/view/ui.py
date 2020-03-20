@@ -1,7 +1,17 @@
 class Ui:
     """
     This abstract class describes a general user interface.
+    This class is not supposed to be instantiated.
     """
+
+    def show_games(self, games):
+        """
+        Show the games in the ui.
+
+        :param games: An array with the names of the possible games.
+        """
+
+        raise NotImplementedError("Please implement this method.")
 
     def init_player(self, color):
         """
