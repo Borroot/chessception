@@ -34,49 +34,51 @@ class Tui:
         question = 'Please choose a game.\n'
         for index, game in enumerate(games):
             question = question + '  ({0}) {1}'.format(index, game)
-            if index is not len(games) - 1:
-                question = question + '\n'
+            question = question + '\n' if index < len(games) - 1 else question
         regex = r'^[0-' + str(len(games) - 1) + r']$'
-        answer = int(_ask(question, regex))
-        self._controller.event_game(games[answer])
+        answer = games[int(_ask(question, regex))]
+        self._controller.event_game(answer)
 
-    def init_player(self, color):
+    def show_init_player(self, color):
         question = 'Please choose a player for {}.\n  (0) Human\n  (1) Computer'.format(color)
         regex = r'^[01]$'
-        return 'human' if _ask(question, regex) == '0' else 'computer'
+        answer = 'human' if _ask(question, regex) == '0' else 'computer'
+        self._controller.event_init_player(answer)
 
-    def init_level(self):
+    def show_init_level(self, levels):
         question = 'Please choose a difficulity level.\n  (0) Easy\n  (1) Medium\n  (2) Hard'
         regex = r'^[012]$'
         return int(_ask(question, regex))
 
-    def move(self, board):
+    ########################################################################################################
+
+    def show_state(self, state):
+        print()
+        print(state)
+
+    def show_move(self, board):
         question = 'Please make a move.'
         regex = r'^[a-hA-H][1-8][a-hA-H][1-8][rnbq]?$'
         return _ask(question, regex).lower()
 
-    def draw_offer(self):
+    def show_move_error(self, move):
+        print('The move {} is illegal.'.format(move))
+
+    def show_speech(self):
+        print('Please say your move.')
+
+    def show_speech_error(self):
+        print('Your speech could not be recognised.')
+
+    def show_draw_offer(self):
         question = 'A draw has been offered.\n  (0) Decline\n  (1) Accept.'
         regex = r'^[01]$'
         return True if _ask(question, regex) == '1' else False
 
-    def info_illegal(self, move):
-        print('The move {} is illegal.'.format(move))
-
-    def info_onturn(self, player):
+    def show_onturn(self, player):
         pass
 
-    def info_speech(self):
-        print('Please say your move.')
-
-    def info_speech_error(self):
-        print('Your speech could not be recognised.')
-
-    def info_board(self, board):
-        print()
-        print(board)
-
-    def info_winner(self, winner):
+    def show_winner(self, winner):
         if winner is None:
             print("It's a draw!")
         else:

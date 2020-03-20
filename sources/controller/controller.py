@@ -1,6 +1,8 @@
 from model.player.computer import Computer
 from model.player.human import Human
 
+from model.game.chess import Chess
+
 from view.gui import Gui
 from view.tui import Tui
 
@@ -15,20 +17,34 @@ class Controller:
         self._mic = mic
         self._arm = arm
 
-        games = ['Chess', 'Checkers']
+        self._players = []
+        self._game = None
+        self._onturn = None
+
+        games = ['chess', 'checkers']
         self._ui = Tui(self, games) if ui == 'tui' else Gui(self, games)
 
-        # white, black = self._init_players()
-        # winner = self._game(white, black)
-        # self._ui.info_winner(winner)
-
     def event_game(self, game):
-        print(game)
+        if game == 'chess':
+            self._game = Chess()
+        # if game is 'checkers':
+        #     self._game = Checkers()
+        self._ui.show_init_player('white')
 
-    def _init_players(self):
-        white = self._init_player('white')
-        black = self._init_player('black')
-        return white, black
+    def event_init_player(self, player, color):
+        if player == 'human':
+            self._players.append(Human(color))
+            if len(self._players) == 1:
+                self._ui.show_init_player('black')
+            else:
+                # TODO: Start the actual game.
+                pass
+
+        if player == 'computer':
+            self._ui.show_init_level(self._game.levels)
+
+    def event_init_level(self, level):
+        self._players.append(Computer(color))
 
     def _init_player(self, color):
         player = self._ui.init_player(color)

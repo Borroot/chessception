@@ -1,55 +1,40 @@
-import chess
+class Game:
+    """
+    This abstract class describes a general game.
+    The general game is a two player game with a state and alternating turns.
+    """
 
+    def state(self):
+        """
+        :return: A string representation of the current state.
+        """
+        raise NotImplementedError("Please implement this method.")
 
-class ResignException(Exception):
-    pass
+    def move(self, move):
+        """
+        Make the move.
 
+        :param move: A string representation of the move to be made.
+        """
+        raise NotImplementedError("Please implement this method.")
 
-class DrawOfferException(Exception):
-    pass
+    def valid_move(self, move):
+        """
+        :param move: A string representation of a move.
+        :return: If the move is valid in the current state.
+        """
+        raise NotImplementedError("Please implement this method.")
 
+    def winner(self, white, black):
+        """
+        :param white:
+        :param black:
+        :return: The player which won or None indicating a draw.
+        """
+        raise NotImplementedError("Please implement this method.")
 
-def _winner(board, white, black):
-    result = board.result()
-    if result == '1-0':
-        return white
-    if result == '0-1':
-        return black
-    if result == '1/2-1/2':
-        return None
-
-
-def _other(onturn, white, black):
-    return white if onturn == black else black
-
-
-def _move(self, board, player):
-    self._ui.info_onturn(player)
-    move = player.move(board)
-
-    if move in board.legal_moves:
-        board.push(move)
-    else:
-        self._ui.info_illegal(move)
-        self._move(board, player)
-
-    self._ui.info_board(board)
-
-
-def _game(self, white, black):
-    board = chess.Board()
-    onturn = white
-
-    with white, black:
-        self._ui.info_board(board)
-        while not board.is_game_over():
-            try:
-                self._move(board, onturn)
-                onturn = self._other(onturn, white, black)
-            except ResignException:
-                return self._other(onturn, white, black)
-            except DrawOfferException:
-                if self._other(onturn, white, black).draw_offer():
-                    return None
-
-    return self._winner(board, white, black)
+    def is_game_over(self):
+        """
+        :return: If the game has finished.
+        """
+        raise NotImplementedError("Please implement this method.")
