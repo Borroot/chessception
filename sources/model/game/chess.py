@@ -21,8 +21,11 @@ class Chess(game.Game):
         self._board.push(move)
 
     def valid_move(self, move):
-        move = chess.Move.from_uci(move)
-        return move in self._board.legal_moves
+        try:
+            move = chess.Move.from_uci(move)
+            return move in self._board.legal_moves
+        except ValueError:
+            return False
 
     def winner(self, white, black):
         result = self._board.result()
@@ -33,5 +36,5 @@ class Chess(game.Game):
         if result == '1/2-1/2':
             return None
 
-    def is_game_over(self):
+    def game_over(self):
         return self._board.is_game_over()

@@ -1,6 +1,4 @@
-from model.player.computer_chess import ComputerChess
 from model.player.human import Human
-
 from model.game.chess import Chess
 
 from view.gui import Gui
@@ -19,13 +17,28 @@ class Controller:
 
         self._players = []
         self._game = None
-        self._onturn = None
+        self._onturn = None  # index of the player on turn
 
         games = ['chess', 'checkers']
         Tui(self, games) if ui == 'tui' else Gui(self, games)
 
     def set_ui(self, ui):
         self._ui = ui
+
+    def event_move(self, move):
+        if self._game.valid_move(move):
+            self._game.move(move)
+            self._ui.show_state(self._game.state())
+
+        if self._game.game_over():
+            winner = self._game.winner(self._players[0], self._players[1])
+            # show winner
+        else:
+            self._onturn = (self._onturn + 1) % len(self._players)
+            if isinstance(self._players[self._onturn], Human):
+                self._ui.show_move()
+            else:
+                self.event_move(self._players)
 
     def event_game(self, game):
         if game == 'chess':
@@ -39,7 +52,8 @@ class Controller:
             colors = ['white', 'black']
             self._ui.show_init_player(colors[len(self._players)])
         else:  # the players are initialized
-            pass
+            self._onturn = 0
+            self.event_move("")
 
     def event_init_player(self, player, color):
         if player == 'human':
@@ -50,6 +64,5 @@ class Controller:
             self._ui.show_init_level(self._game.LEVELS)
 
     def event_init_level(self, level):
-        print(level)
         self._players[len(self._players) - 1].set_level(level)
         self._init_players()

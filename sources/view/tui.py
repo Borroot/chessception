@@ -53,7 +53,7 @@ class Tui(Ui):
         print()
         print(state)
 
-    def show_move(self, board):
+    def show_move(self):
         question = 'Please make a move.'
         regex = r'^[a-hA-H][1-8][a-hA-H][1-8][rnbq]?$'
         return _ask(question, regex).lower()

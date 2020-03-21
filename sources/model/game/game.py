@@ -41,7 +41,7 @@ class Game:
         """
         raise NotImplementedError("Please implement this method.")
 
-    def is_game_over(self):
+    def game_over(self):
         """
         :return: If the game has finished.
         """

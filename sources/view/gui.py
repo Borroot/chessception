@@ -54,3 +54,8 @@ class Gui(Ui, tk.Frame):
         button = tk.Button(self._master, text='continue', font=('Arial Bold', 40),
                            command=lambda: self._controller.event_init_level(level.get()))
         button.pack(padx=200, fill=tk.X, anchor=tk.CENTER)
+
+    def show_state(self, state):
+        self._clear()
+        label = tk.Label(self._master, text=state, font=('Monospace', 20))
+        label.pack(padx=40, pady=100, anchor=tk.W)

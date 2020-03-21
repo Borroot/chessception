@@ -21,7 +21,6 @@ class Ui:
         Show the initialization of a new player.
 
         :param color: The black or white player.
-        :returns: Either 'human' or 'computer'.
         """
 
         raise NotImplementedError("Please implement this method.")
@@ -31,9 +30,22 @@ class Ui:
         Show the initialization of the difficulity level for the computer.
 
         :param levels: The possible difficulity levels.
-        :returns: One of the levels.
         """
 
         raise NotImplementedError("Please implement this method.")
 
-        # r'[a-h][1-8][a-h][1-8][rnbq]?'
+    def show_state(self, state):
+        """
+        Show the state in the ui.
+
+        :param state: A string representation of the state.
+        """
+
+        raise NotImplementedError("Please implement this method.")
+
+    def show_move(self):
+        """
+        Show the request for a move in the ui.
+        """
+
+        raise NotImplementedError("Please implement this method.")
