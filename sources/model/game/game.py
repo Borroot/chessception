@@ -4,13 +4,31 @@ class Game:
     The general game is a two player game with a state and alternating turns.
     """
 
-    def ai(self, color):
+    def ai_init(self):
         """
-        :param color: The color of the player.
-        :return: A computer player for this game.
+        Initialize the ai.
         """
         raise NotImplementedError("Please implement this method.")
 
+    def ai_level(self, level):
+        """
+        Initialize the difficulity level of the ai.
+        """
+        raise NotImplementedError("Please implement this method.")
+
+    def ai_move(self):
+        """
+        Get a move from the ai.
+
+        :returns: Move found by the ai.
+        """
+        raise NotImplementedError("Please implement this method.")
+
+    def ai_close(self):
+        """
+        Close the ai, this is useful in case of using an engine.
+        """
+        raise NotImplementedError("Please implement this method.")
 
     def state(self):
         """
@@ -33,11 +51,9 @@ class Game:
         """
         raise NotImplementedError("Please implement this method.")
 
-    def winner(self, white, black):
+    def winner(self):
         """
-        :param white:
-        :param black:
-        :return: The player which won or None indicating a draw.
+        :return: The player which won (either 0 or 1) or None indicating a draw.
         """
         raise NotImplementedError("Please implement this method.")
 

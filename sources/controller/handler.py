@@ -1,4 +1,3 @@
-from model.player.human import Human
 from model.game.chess import Chess
 
 from view.gui import Gui
@@ -15,7 +14,7 @@ class Controller:
         self._arm = arm
         self._ui = None
 
-        self._players = []
+        self._players = []   # consisting of 'human' and 'computer'
         self._game = None
         self._onturn = None  # index of the player on turn
 
@@ -30,15 +29,15 @@ class Controller:
             self._game.move(move)
             self._ui.show_state(self._game.state())
 
-        if self._game.game_over():
-            winner = self._game.winner(self._players[0], self._players[1])
-            # show winner
-        else:
-            self._onturn = (self._onturn + 1) % len(self._players)
-            if isinstance(self._players[self._onturn], Human):
-                self._ui.show_move()
+            if self._game.game_over():
+                winner = self._game.winner()
+                # show winner
             else:
-                self.event_move(self._players)
+                self._onturn = (self._onturn + 1) % len(self._players)
+                if self._players[self._onturn] == 'human':
+                    self._ui.show_move(self._game.state())
+                else:  # == 'computer'
+                    self.event_move(self._game.ai_move())
 
     def event_game(self, game):
         if game == 'chess':
@@ -55,14 +54,14 @@ class Controller:
             self._onturn = 0
             self.event_move("")
 
-    def event_init_player(self, player, color):
+    def event_init_player(self, player):
         if player == 'human':
-            self._players.append(Human(color))
+            self._players.append('human')
             self._init_players()
-        if player == 'computer':
-            self._players.append(self._game.ai(color))
+        else:  # player == 'computer':
+            self._players.append('computer')
             self._ui.show_init_level(self._game.LEVELS)
 
     def event_init_level(self, level):
-        self._players[len(self._players) - 1].set_level(level)
+        self._game.ai_level(level)
         self._init_players()

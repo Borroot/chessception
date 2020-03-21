@@ -43,7 +43,7 @@ class Ui:
 
         raise NotImplementedError("Please implement this method.")
 
-    def show_move(self):
+    def show_move(self, state):
         """
         Show the request for a move in the ui.
         """

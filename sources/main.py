@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import click
-from controller.controller import Controller
+from controller.handler import Controller
 
 
 @click.command()

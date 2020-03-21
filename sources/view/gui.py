@@ -59,3 +59,6 @@ class Gui(Ui, tk.Frame):
         self._clear()
         label = tk.Label(self._master, text=state, font=('Monospace', 20))
         label.pack(padx=40, pady=100, anchor=tk.W)
+
+    def show_move(self, state):
+

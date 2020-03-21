@@ -47,36 +47,24 @@ class Tui(Ui):
     def show_init_level(self, levels):
         question = 'Please choose a difficulity level.\nThe levels range from 1 to {0}.'.format(levels)
         regex = r'^[1-' + str(levels) + r']$'
-        return int(_ask(question, regex))
+        self._controller.event_init_level(int(_ask(question, regex)))
 
     def show_state(self, state):
         print()
         print(state)
 
-    def show_move(self):
+    def show_move(self, state):
         question = 'Please make a move.'
         regex = r'^[a-hA-H][1-8][a-hA-H][1-8][rnbq]?$'
-        return _ask(question, regex).lower()
+        self._controller.event_move(_ask(question, regex).lower())
 
-    def show_move_error(self, move):
-        print('The move {} is illegal.'.format(move))
-
-    def show_speech(self):
-        print('Please say your move.')
-
-    def show_speech_error(self):
-        print('Your speech could not be recognised.')
-
-    def show_draw_offer(self):
-        question = 'A draw has been offered.\n  (0) Decline\n  (1) Accept.'
-        regex = r'^[01]$'
-        return True if _ask(question, regex) == '1' else False
-
-    def show_onturn(self, player):
-        pass
-
-    def show_winner(self, winner):
-        if winner is None:
-            print("It's a draw!")
-        else:
-            print('The winner is {}!'.format(winner))
+    # def show_draw_offer(self):
+    #     question = 'A draw has been offered.\n  (0) Decline\n  (1) Accept.'
+    #     regex = r'^[01]$'
+    #     self._controller.event_draw_offer(True if _ask(question, regex) == '1' else False)
+    #
+    # def show_winner(self, winner):
+    #     if winner is None:
+    #         print("It's a draw!")
+    #     else:
+    #         print('The winner is {}!'.format(winner))
