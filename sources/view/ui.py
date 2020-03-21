@@ -1,8 +1,11 @@
 class Ui:
     """
     This abstract class describes a general user interface.
-    This class is not supposed to be instantiated.
     """
+
+    def __init__(self, controller):
+        self._controller = controller
+        controller.set_ui(self)
 
     def show_games(self, games):
         """

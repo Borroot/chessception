@@ -1,10 +1,9 @@
+from view.ui import Ui
 import re
 
 
 def _ask(question, regex):
     """
-    Ask the user for input.
-
     :param question: The question to be displayed to the user.
     :param regex: The regex to validate the answer of the user.
     """
@@ -21,13 +20,13 @@ def _ask(question, regex):
             print('Please use the correct answering format.\nFormat: {}'.format(regex))
 
 
-class Tui:
+class Tui(Ui):
     """
     This class provides a terminal user interface.
     """
 
     def __init__(self, controller, games):
-        self._controller = controller
+        super().__init__(controller)
         self.show_games(games)
 
     def show_games(self, games):
@@ -43,14 +42,12 @@ class Tui:
         question = 'Please choose a player for {}.\n  (0) Human\n  (1) Computer'.format(color)
         regex = r'^[01]$'
         answer = 'human' if _ask(question, regex) == '0' else 'computer'
-        self._controller.event_init_player(answer)
+        self._controller.event_init_player(answer, color)
 
     def show_init_level(self, levels):
-        question = 'Please choose a difficulity level.\n  (0) Easy\n  (1) Medium\n  (2) Hard'
-        regex = r'^[012]$'
+        question = 'Please choose a difficulity level.\nThe levels range from 1 to {0}.'.format(levels)
+        regex = r'^[1-' + str(levels) + r']$'
         return int(_ask(question, regex))
-
-    ########################################################################################################
 
     def show_state(self, state):
         print()

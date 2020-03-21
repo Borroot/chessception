@@ -4,6 +4,14 @@ class Game:
     The general game is a two player game with a state and alternating turns.
     """
 
+    def ai(self, color):
+        """
+        :param color: The color of the player.
+        :return: A computer player for this game.
+        """
+        raise NotImplementedError("Please implement this method.")
+
+
     def state(self):
         """
         :return: A string representation of the current state.

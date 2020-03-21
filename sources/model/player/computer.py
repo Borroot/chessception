@@ -6,32 +6,27 @@ _ENGINE_PATH = "../../stockfish/src/stockfish"
 
 class Computer(Player):
     """
-    This class describes a computer player powered by a chess engine.
+    This abstract class describes a computer player.
     """
 
-    def __init__(self, color, time):
-        """
-        :param time: Amount of time allowed to think about each move (e.g. 1.0).
-        """
+    def __init__(self, color):
         super().__init__(color)
-        self._time = time
+        self._level = None
+
+    def set_level(self, level):
+        self._level = level
 
     def __str__(self):
         return self._color + ' (Computer)'
 
     def __enter__(self):
-        self._engine = chess.engine.SimpleEngine.popen_uci(_ENGINE_PATH)
-        return self
+        raise NotImplementedError("Please implement this method.")
 
     def move(self, board):
-        result = self._engine.play(board, chess.engine.Limit(time=self._time))
-        return result.move
+        raise NotImplementedError("Please implement this method.")
 
     def draw_offer(self):
-        return False
+        raise NotImplementedError("Please implement this method.")
 
     def __exit__(self, exc_type, exc_value, traceback):
-        try:
-            self._engine.quit()
-        except:
-            pass
+        raise NotImplementedError("Please implement this method.")

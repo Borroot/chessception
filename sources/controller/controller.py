@@ -1,4 +1,4 @@
-from model.player.computer import Computer
+from model.player.computer_chess import ComputerChess
 from model.player.human import Human
 
 from model.game.chess import Chess
@@ -9,48 +9,47 @@ from view.tui import Tui
 
 class Controller:
     """
-    This class controls the flow of the program and provides an interface
-    between the model and the view (conform to the MVC design pattern).
+    This class controls the flow of the program.
     """
 
     def __init__(self, ui, mic, arm):
         self._mic = mic
         self._arm = arm
+        self._ui = None
 
         self._players = []
         self._game = None
         self._onturn = None
 
         games = ['chess', 'checkers']
-        self._ui = Tui(self, games) if ui == 'tui' else Gui(self, games)
+        Tui(self, games) if ui == 'tui' else Gui(self, games)
+
+    def set_ui(self, ui):
+        self._ui = ui
 
     def event_game(self, game):
         if game == 'chess':
             self._game = Chess()
         # if game is 'checkers':
         #     self._game = Checkers()
-        self._ui.show_init_player('white')
+        self._init_players()
+
+    def _init_players(self):
+        if len(self._players) < 2:
+            colors = ['white', 'black']
+            self._ui.show_init_player(colors[len(self._players)])
+        else:  # the players are initialized
+            pass
 
     def event_init_player(self, player, color):
         if player == 'human':
             self._players.append(Human(color))
-            if len(self._players) == 1:
-                self._ui.show_init_player('black')
-            else:
-                # TODO: Start the actual game.
-                pass
-
+            self._init_players()
         if player == 'computer':
-            self._ui.show_init_level(self._game.levels)
+            self._players.append(self._game.ai(color))
+            self._ui.show_init_level(self._game.LEVELS)
 
     def event_init_level(self, level):
-        self._players.append(Computer(color))
-
-    def _init_player(self, color):
-        player = self._ui.init_player(color)
-        if player == 'human':
-            return Human(color, self._ui, self._mic)
-        else:  # player == 'computer'
-            level = self._ui.init_level()
-            time = level + 0.1
-            return Computer(color, time)
+        print(level)
+        self._players[len(self._players) - 1].set_level(level)
+        self._init_players()

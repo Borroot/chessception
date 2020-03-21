@@ -1,11 +1,17 @@
+from model.player.computer_chess import ComputerChess
 import model.game.game as game
 import chess
 
 
 class Chess(game.Game):
 
+    LEVELS = 3
+
     def __init__(self):
         self._board = chess.Board()
+
+    def ai(self, color):
+        return ComputerChess(color)
 
     def state(self):
         return self._board.__str__()
