@@ -1,4 +1,5 @@
 from controller.controller import Controller
+from model.game.game import ResignException, DrawOfferException
 from view.ui import Ui
 
 import tkinter as tk
@@ -26,6 +27,7 @@ class Gui(Ui, tk.Frame):
             widget.destroy()
 
     def request_game(self, games):
+        self._clear()
         game_chosen = tk.StringVar()
 
         for index, game in enumerate(games):
@@ -36,10 +38,10 @@ class Gui(Ui, tk.Frame):
             button.pack(padx=200, pady=padding, fill=tk.X, anchor=tk.CENTER)
 
         self._master.wait_variable(game_chosen)
-        self._clear()
         return game_chosen.get()
 
     def request_player(self, color):
+        self._clear()
         player_chosen = tk.StringVar()
 
         label = tk.Label(self._master, text=color, font=('Arial Bold', 30))
@@ -51,10 +53,10 @@ class Gui(Ui, tk.Frame):
             button.pack(padx=200, pady=10, fill=tk.X, anchor=tk.CENTER)
 
         self._master.wait_variable(player_chosen)
-        self._clear()
         return player_chosen.get()
 
     def request_level(self, levels):
+        self._clear()
         label = tk.Label(self._master, text='difficulity', font=('Arial Bold', 30))
         label.pack(padx=(30, 20), pady=20, anchor=tk.NW)
 
@@ -68,13 +70,41 @@ class Gui(Ui, tk.Frame):
         button.pack(padx=200, fill=tk.X, anchor=tk.CENTER)
 
         self._master.wait_variable(done)
-        self._clear()
         return int(level_chosen.get())
 
-    def request_move(self, board):
-        # NOTE Do not forget to implement the exceptions for move.
-        raise NotImplementedError("Please implement this method.")
+    def request_move(self, state):
+        self.show_state(state)
+        move_chosen = tk.StringVar()
+
+        frame = tk.Frame(self._master)
+        frame.grid(row=0, column=1)
+
+        top_frame = tk.Frame(frame)
+        top_frame.pack(padx=60, pady=(0, 80), anchor=tk.N)
+
+        bottom_frame = tk.Frame(frame)
+        bottom_frame.pack(padx=60, anchor=tk.S)
+
+        text = tk.Text(top_frame, height=1, width=7, font=('Arial Bold', 30))
+        text.grid(pady=20, row=0, column=0)
+
+        button = tk.Button(top_frame, text='move', font=('Arial Bold', 30), command=lambda: move_chosen.set(text.get('1.0', 'end-1c')))
+        button.grid(row=1, column=0)
+
+        button = tk.Button(bottom_frame, text='resign', font=('Arial Bold', 20), command=lambda: move_chosen.set('resign'))
+        button.grid(padx=20, row=1, column=0)
+
+        button = tk.Button(bottom_frame, text='draw?', font=('Arial Bold', 20), command=lambda: move_chosen.set('draw?'))
+        button.grid(padx=20, row=1, column=1)
+
+        self._master.wait_variable(move_chosen)
+        if move_chosen.get() == 'resign':
+            raise ResignException()
+        elif move_chosen.get() == 'draw?':
+            raise DrawOfferException()
+        return move_chosen.get()
 
     def show_state(self, state):
+        self._clear()
         label = tk.Label(self._master, text=state, font=('Monospace', 20))
-        label.pack(padx=40, pady=100, anchor=tk.W)
+        label.grid(padx=40, pady=100, row=0, column=0)
