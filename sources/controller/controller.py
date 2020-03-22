@@ -1,5 +1,5 @@
 from model.player.computer import Computer
-from model.player.human    import Human
+from model.player.human import Human
 
 from model.exception import ResignException
 from model.exception import DrawOfferException
@@ -16,7 +16,7 @@ class Controller(threading.Thread):
     def __init__(self, ui, mic, arm):
         threading.Thread.__init__(self)
         self._mic = mic
-        self._ui  = ui
+        self._ui = ui
 
     def run(self):
         white, black = self._init_players()
@@ -32,9 +32,9 @@ class Controller(threading.Thread):
         player = self._ui.init_player(color)
         if player == 'human':
             return Human(color, self._ui, self._mic)
-        else: # player == 'computer'
+        else:  # player == 'computer'
             level = self._ui.init_level()
-            time  = level + 0.1
+            time = level + 0.1
             return Computer(color, time)
 
     def _winner(self, board, white, black):
@@ -62,7 +62,7 @@ class Controller(threading.Thread):
         self._ui.info_board(board)
 
     def _game(self, white, black):
-        board  = Board()
+        board = Board()
         onturn = white
 
         with white, black:
@@ -76,5 +76,4 @@ class Controller(threading.Thread):
                 except DrawOfferException:
                     if self._other(onturn, white, black).draw_offer():
                         return None
-
         return self._winner(board, white, black)

@@ -3,6 +3,7 @@ import chess.engine
 
 _ENGINE_PATH = "../../stockfish/src/stockfish"
 
+
 class Computer(Player):
     """
     This class describes a computer player powered by a chess engine.

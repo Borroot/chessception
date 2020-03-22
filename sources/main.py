@@ -1,7 +1,7 @@
-from controller.controller import Controller
 from view.gui import Gui
 from view.tui import Tui
 import click
+
 
 @click.command()
 @click.option('--ui', type=click.Choice(['gui', 'tui']), default='tui', show_default=True)
@@ -15,6 +15,7 @@ def main(ui, mic, arm):
         Tui(mic, arm)
     else:  # ui == 'gui'
         Gui(mic, arm)
+
 
 if __name__ == "__main__":
     main()

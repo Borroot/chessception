@@ -28,7 +28,7 @@ class Human(Player):
                 return chess.Move.from_uci(speech.move())
             except:
                 self._ui.info_speech_error()
-                return move(self, board)
+                return self.move(self, board)
 
     def draw_offer(self):
         return self._ui.draw_offer()

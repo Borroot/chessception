@@ -1,4 +1,4 @@
-class Player():
+class Player:
     """
     This abstract class describes a general player.
     """
