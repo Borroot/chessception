@@ -24,6 +24,14 @@ class Gui(tk.Frame):
         for widget in self._master.winfo_children():
             widget.destroy()
 
+    # def show_games(self, games):
+    #     self._clear()
+    #     for index, game in enumerate(games):
+    #         padding = (100, 10) if index == 0 else 10
+    #         event_game = functools.partial(self._controller.event_game, game)
+    #         button = tk.Button(self._master, text=game, font=('Arial Bold', 40), command=event_game)
+    #         button.pack(padx=200, pady=padding, fill=tk.X, anchor=tk.CENTER)
+
     def init_player(self, color):
         self._clear()
         label = tk.Label(self._master, text=color, font=('Arial Bold', 30))
@@ -38,8 +46,24 @@ class Gui(tk.Frame):
         self._master.wait_variable(player_chosen)
         return player_chosen.get()
 
-    def init_level(self):
-        raise NotImplementedError("Please implement this method.")
+    # def init_level(self):
+    #     self._clear()
+    #     label = tk.Label(self._master, text='difficulity', font=('Arial Bold', 30))
+    #     label.pack(padx=(30, 20), pady=20, anchor=tk.NW)
+    #
+    #     level = tk.IntVar()
+    #     scale = tk.Scale(self._master, variable=level, from_=1, to=levels, orient=tk.HORIZONTAL,
+    #                      length=400, width=50, font=('Arial Bold', 30))
+    #     scale.pack(pady=(10, 20), anchor=tk.CENTER)
+    #
+    #     button = tk.Button(self._master, text='continue', font=('Arial Bold', 40),
+    #                        command=lambda: self._controller.event_init_level(level.get()))
+    #     button.pack(padx=200, fill=tk.X, anchor=tk.CENTER)
+
+    # def show_state(state):
+    #     self._clear()
+    #     label = tk.Label(self._master, text=state, font=('Monospace', 20))
+    #     label.pack(padx=40, pady=100, anchor=tk.W)
 
     def move(self, board):
         raise NotImplementedError("Please implement this method.")
