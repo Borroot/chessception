@@ -1,13 +1,13 @@
 from model.player.player import Player
 import chess.engine
 
-_ENGINE_PATH = "../../stockfish/src/stockfish"
-
 
 class Computer(Player):
     """
     This class describes a computer player powered by a chess engine.
     """
+
+    _ENGINE_PATH = "../../stockfish/src/stockfish"
 
     def __init__(self, color, time):
         """
@@ -20,18 +20,17 @@ class Computer(Player):
         return self._color + ' (Computer)'
 
     def __enter__(self):
-        self._engine = chess.engine.SimpleEngine.popen_uci(_ENGINE_PATH)
+        self._engine = chess.engine.SimpleEngine.popen_uci(self._ENGINE_PATH)
         return self
 
-    def move(self, board):
-        result = self._engine.play(board, chess.engine.Limit(time=self._time))
-        return result.move
+    def request_move(self, board):
+        return self._engine.play(board, chess.engine.Limit(time=self._time)).move
 
-    def draw_offer(self):
+    def request_draw(self):
         return False
 
     def __exit__(self, exc_type, exc_value, traceback):
         try:
             self._engine.quit()
-        except:
+        except chess.EngineTerminatedError:
             pass

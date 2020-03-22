@@ -1,6 +1,6 @@
 from model.hardware.speech import Speech
-from model.player.player   import Player
-import chess
+from model.player.player import Player
+
 
 class Human(Player):
     """
@@ -18,20 +18,20 @@ class Human(Player):
     def __enter__(self):
         return self
 
-    def move(self, board):
+    def request_move(self, state):
         if not self._mic:
-            return chess.Move.from_uci(self._ui.move(board))
+            return self._ui.request_move(state)
         else:
             speech = Speech()
             try:
-                self._ui.info_speech()
-                return chess.Move.from_uci(speech.move())
-            except:
-                self._ui.info_speech_error()
-                return self.move(self, board)
+                self._ui.show_speech_talk()
+                return speech.move()
+            except ValueError:
+                self._ui.show_speech_error()
+                return self.request_move(state)
 
-    def draw_offer(self):
-        return self._ui.draw_offer()
+    def request_draw(self):
+        return self._ui.request_draw()
 
     def __exit__(self, exc_type, exc_value, traceback):
         pass
