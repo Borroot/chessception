@@ -12,6 +12,11 @@ class Game:
         raise NotImplementedError("Please implement this method.")
 
     def move(self, move):
+        """
+        Make the move and update the state.
+        :param move: The move to be made.
+        :raises ValueError: If the move is invalid.
+        """
         raise NotImplementedError("Please implement this method.")
 
     def other(self, onturn, white, black):
@@ -21,4 +26,7 @@ class Game:
         raise NotImplementedError("Please implement this method.")
 
     def winner(self, white, black):
+        raise NotImplementedError("Please implement this method.")
+
+    def get_ai(self, color, level):
         raise NotImplementedError("Please implement this method.")

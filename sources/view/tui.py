@@ -15,10 +15,6 @@ class Tui(Ui):
     def __init__(self, mic, arm):
         Controller(self, mic, arm).run()
 
-    def _request(self, question):
-        print(question)
-        return input('> ')
-
     def _validate(self, text, regex):
         if re.match(regex, text):
             return True
@@ -27,7 +23,8 @@ class Tui(Ui):
             return False
 
     def _ask(self, question, regex):
-        response = self._request(question)
+        print(question)
+        response = input('> ')
         if self._validate(response, regex):
             return response
         else:
@@ -53,19 +50,16 @@ class Tui(Ui):
         return int(self._ask(question, regex))
 
     def request_move(self, state):
-        question = 'Please make a move.'
-        response = self._request(question).lower()
-
-        if response == 'resign':
-            raise ResignException()
-        elif response == 'draw?':
-            raise DrawOfferException()
-        else:
-            regex = r'^[a-hA-H][1-8][a-hA-H][1-8][rnbq]?$'
-            if self._validate(response, regex):
-                return response
+        while True:
+            response = input('> ').lower()
+            if response == 'resign':
+                raise ResignException()
+            elif response == 'draw?':
+                raise DrawOfferException()
             else:
-                return self.request_move(question)
+                regex = r'^[a-hA-H][1-8][a-hA-H][1-8][rnbq]?$'
+                if self._validate(response, regex):
+                    return response
 
     def request_draw(self):
         question = 'A draw has been offered.\n  (0) Decline\n  (1) Accept.'

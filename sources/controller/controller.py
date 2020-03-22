@@ -4,7 +4,6 @@ from model.game.checkers import Checkers
 from model.game.game import ResignException
 from model.game.game import DrawOfferException
 
-from model.player.computer import Computer
 from model.player.human import Human
 
 import threading
@@ -42,8 +41,7 @@ class Controller(threading.Thread):
             return Human(color, self._ui, self._mic)
         else:  # player == 'computer'
             level = self._ui.request_level(game.LEVELS)
-            time = level + 0.1
-            return Computer(color, time)
+            return game.get_ai(color, level)
 
     def _move(self, game, player):
         move = player.request_move(game.state())

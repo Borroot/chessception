@@ -1,13 +1,10 @@
 from model.player.player import Player
-import chess.engine
 
 
 class Computer(Player):
     """
     This class describes a computer player powered by a chess engine.
     """
-
-    _ENGINE_PATH = "../../stockfish/src/stockfish"
 
     def __init__(self, color, time):
         """
@@ -20,17 +17,13 @@ class Computer(Player):
         return self._color + ' (Computer)'
 
     def __enter__(self):
-        self._engine = chess.engine.SimpleEngine.popen_uci(self._ENGINE_PATH)
-        return self
+        raise NotImplementedError("Please implement this method.")
 
     def request_move(self, board):
-        return self._engine.play(board, chess.engine.Limit(time=self._time)).move
+        raise NotImplementedError("Please implement this method.")
 
     def request_draw(self):
-        return False
+        raise NotImplementedError("Please implement this method.")
 
     def __exit__(self, exc_type, exc_value, traceback):
-        try:
-            self._engine.quit()
-        except chess.EngineTerminatedError:
-            pass
+        raise NotImplementedError("Please implement this method.")
