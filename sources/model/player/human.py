@@ -12,9 +12,6 @@ class Human(Player):
         self._ui  = ui
         self._mic = mic
 
-    def __str__(self):
-        return self._color + ' (Human)'
-
     def __enter__(self):
         return self
 

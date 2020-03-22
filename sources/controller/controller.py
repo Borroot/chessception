@@ -20,10 +20,11 @@ class Controller(threading.Thread):
         self._ui = ui
 
     def run(self):
-        game = self._init_game()
-        white, black = self._init_players(game)
-        winner = self._round(game, white, black)
-        self._ui.show_winner(winner)
+        while True:
+            game = self._init_game()
+            white, black = self._init_players(game)
+            winner = self._round(game, white, black)
+            self._ui.show_winner(winner)
 
     def _init_game(self):
         games = ['chess', 'checkers']

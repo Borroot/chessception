@@ -11,7 +11,6 @@ class Gui(Ui, tk.Frame):
     This class provides a graphical user interface.
     """
 
-
     def __init__(self, mic, arm):
         self._master = tk.Tk()
         tk.Frame.__init__(self, self._master)
@@ -139,4 +138,14 @@ class Gui(Ui, tk.Frame):
         pass
 
     def show_winner(self, winner):
-        pass
+        self._clear()
+
+        text = "It's a draw!" if winner is None else '{0} has won!'.format(winner.__str__().title())
+        label = tk.Label(self._master, text=text, font=('Arial Bold', 40))
+        label.pack(pady=30, anchor=tk.N)
+
+        done = tk.BooleanVar()
+        button = tk.Button(self._master, text='MENU', font=('Arial Bold', 30), command=lambda: done.set(True))
+        button.pack(pady=60, anchor=tk.CENTER)
+
+        self._master.wait_variable(done)

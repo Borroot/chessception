@@ -50,16 +50,13 @@ class Tui(Ui):
         return int(self._ask(question, regex))
 
     def request_move(self, state):
-        while True:
-            response = input('> ').lower()
-            if response == 'resign':
-                raise ResignException()
-            elif response == 'draw?':
-                raise DrawOfferException()
-            else:
-                regex = r'^[a-hA-H][1-8][a-hA-H][1-8][rnbq]?$'
-                if self._validate(response, regex):
-                    return response
+        response = input('> ').lower()
+        if response == 'resign':
+            raise ResignException()
+        elif response == 'draw?':
+            raise DrawOfferException()
+        else:
+            return response
 
     def request_draw(self):
         question = 'A draw has been offered.\n  (0) Decline\n  (1) Accept.'
@@ -67,7 +64,7 @@ class Tui(Ui):
         return True if self._ask(question, regex) == '1' else False
 
     def show_move_illegal(self, move):
-        print('The move {} is illegal.'.format(move))
+        print('The move {} is invalid.'.format(move))
 
     def show_state(self, state):
         print()

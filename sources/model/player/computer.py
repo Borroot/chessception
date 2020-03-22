@@ -13,9 +13,6 @@ class Computer(Player):
         super().__init__(color)
         self._time = time
 
-    def __str__(self):
-        return self._color + ' (Computer)'
-
     def __enter__(self):
         raise NotImplementedError("Please implement this method.")
 

@@ -6,6 +6,9 @@ class Player:
     def __init__(self, color):
         self._color = color
 
+    def __str__(self):
+        return self._color
+
     def request_move(self, state):
         """
         Request the move which the player wants to make.
