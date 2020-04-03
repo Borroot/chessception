@@ -17,22 +17,8 @@ class Speech:
         return self._extract(transcript)
 
     def _record(self, recognizer):
-        # mic = sr.Microphone(sample_rate=44100, chunk_size=4096)
-        # with mic as source:
-        #     return recognizer.listen(source)
-        import subprocess
-        import os
-        import time
-        import signal
-
-        cmd = 'arecord -f dat /tmp/test.wav'
-        proc = subprocess.Popen(cmd.split(' '), shell=False, preexec_fn=os.setsid)
-
-        time.sleep(10)
-        os.killpg(proc.pid, signal.SIGTERM)
-        proc.terminate()
-        with sr.AudioFile('/tmp/test.wav') as source:
-            recognizer.adjust_for_ambient_noise(source)
+        mic = sr.Microphone(sample_rate=44100, chunk_size=4096)
+        with mic as source:
             return recognizer.listen(source)
 
     def _save(self, audio):
