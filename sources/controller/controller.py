@@ -1,10 +1,10 @@
-from model.game.chess import Chess
-from model.game.checkers import Checkers
-
+from model.game.checkers.checkers import Checkers
+from model.game.chess.chess import Chess
 from model.game.game import ResignException
 from model.game.game import DrawOfferException
 
 from model.player.human import Human
+import view.tui
 
 import threading
 
@@ -14,10 +14,11 @@ class Controller(threading.Thread):
     This class controls the flow of the program.
     """
 
-    def __init__(self, ui, mic, arm):
+    def __init__(self, ui, mic, arm, unicode):
         threading.Thread.__init__(self)
         self._mic = mic
         self._ui = ui
+        self._unicode = unicode
 
     def run(self):
         while True:
@@ -29,7 +30,13 @@ class Controller(threading.Thread):
     def _init_game(self):
         games = ['chess', 'checkers']
         chosen = self._ui.request_game(games)
-        return Chess() if chosen == 'chess' else Checkers()
+        if chosen == 'chess':
+            invert = True if type(self._ui) is view.tui.Tui else False
+            return Chess(self._unicode, invert)
+        elif chosen == 'checkers':
+            return Checkers()
+        else:
+            raise ValueError("A non valid game has been chosen.")
 
     def _init_players(self, game):
         white = self._init_player(game, 'white')

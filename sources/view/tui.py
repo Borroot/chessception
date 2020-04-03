@@ -1,4 +1,4 @@
-from controller.controller import Controller
+import controller.controller
 from view.ui import Ui
 
 from model.game.game import ResignException
@@ -12,8 +12,8 @@ class Tui(Ui):
     This class provides a terminal user interface.
     """
 
-    def __init__(self, mic, arm):
-        Controller(self, mic, arm).run()
+    def __init__(self, mic, arm, unicode):
+        controller.controller.Controller(self, mic, arm, unicode).run()
 
     def _validate(self, text, regex):
         if re.match(regex, text):

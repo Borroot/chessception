@@ -1,14 +1,14 @@
 from model.player.computer_chess import ComputerChess
 from model.game.game import Game
 import chess
+import model.game.chess.board
 
 
 class Chess(Game):
-
     LEVELS = 5
 
-    def __init__(self):
-        self._board = chess.Board()
+    def __init__(self, unicode, invert):
+        self._board = model.game.chess.board.Board(unicode, invert)
 
     def state(self):
         return self._board

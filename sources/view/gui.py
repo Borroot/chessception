@@ -11,11 +11,11 @@ class Gui(Ui, tk.Frame):
     This class provides a graphical user interface.
     """
 
-    def __init__(self, mic, arm):
+    def __init__(self, mic, arm, unicode):
         self._master = tk.Tk()
         tk.Frame.__init__(self, self._master)
 
-        self._controller = Controller(self, mic, arm)
+        self._controller = Controller(self, mic, arm, unicode)
         self._controller.start()
 
         self._master.geometry("800x480")
@@ -125,7 +125,8 @@ class Gui(Ui, tk.Frame):
 
     def show_state(self, state):
         self._clear()
-        label = tk.Label(self._master, text=state, font=('Monospace', 20))
+        # TODO: Show the state monospaced when using unicode characters.
+        label = tk.Label(self._master, text=state, font=('Monospace', 17))
         label.grid(padx=40, pady=90, row=0, column=0)
 
     def show_move_illegal(self, move):
