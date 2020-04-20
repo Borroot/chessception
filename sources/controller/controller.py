@@ -5,7 +5,6 @@ from model.game.game import DrawOfferException
 
 from model.player.human import Human
 import view.tui
-
 import threading
 
 

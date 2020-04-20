@@ -1,4 +1,5 @@
 from model.game.chess.computer import Computer
+from model.game.chess.speech import Speech
 from model.game.game import Game
 import chess
 
@@ -41,3 +42,6 @@ class Chess(Game):
 
     def get_ai(self, color, level):
         return Computer(color, level)
+
+    def get_speech(self):
+        return Speech()

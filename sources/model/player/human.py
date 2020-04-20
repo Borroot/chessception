@@ -1,4 +1,3 @@
-from model.hardware.speech import Speech
 from model.player.player import Player
 
 
@@ -19,7 +18,7 @@ class Human(Player):
         if not self._mic:
             return self._ui.request_move(game)
         else:
-            speech = Speech()
+            speech = game.get_speech()
             try:
                 self._ui.show_speech_talk()
                 return speech.move()
