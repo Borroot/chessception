@@ -1,5 +1,6 @@
 from model.game.chess.computer import Computer
 from model.game.chess.speech import Speech
+from model.game.chess.dobot import Dobot
 from model.game.game import Game
 import chess
 
@@ -45,3 +46,7 @@ class Chess(Game):
 
     def get_speech(self):
         return Speech()
+
+    def get_dobot(self):
+        return Dobot()
+

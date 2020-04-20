@@ -15,6 +15,7 @@ class Controller(threading.Thread):
 
     def __init__(self, ui, mic, arm, unicode):
         threading.Thread.__init__(self)
+        self._arm = arm
         self._mic = mic
         self._ui = ui
         self._unicode = unicode
@@ -22,9 +23,11 @@ class Controller(threading.Thread):
     def run(self):
         while True:
             game = self._init_game()
+            dobot = game.get_dobot() if self._arm else None
             white, black = self._init_players(game)
-            winner = self._round(game, white, black)
+            winner = self._round(game, dobot, white, black)
             self._ui.show_winner(winner)
+            dobot.reset(game)
 
     def _init_game(self):
         games = ['chess', 'checkers']
@@ -58,7 +61,7 @@ class Controller(threading.Thread):
             self._ui.show_move_illegal(move)
             self._move(game, player)
 
-    def _round(self, game, white, black):
+    def _round(self, game, dobot, white, black):
         onturn = white
         with white, black:
             self._ui.show_state(game.show_state())
@@ -66,6 +69,8 @@ class Controller(threading.Thread):
                 try:
                     self._move(game, onturn)
                     self._ui.show_state(game.show_state())
+                    if self._arm:
+                        dobot.move(game)
                     onturn = game.other(onturn, white, black)
                 except ResignException:
                     return game.other(onturn, white, black)
