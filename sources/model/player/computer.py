@@ -16,7 +16,7 @@ class Computer(Player):
     def __enter__(self):
         raise NotImplementedError("Please implement this method.")
 
-    def request_move(self, board):
+    def request_move(self, game):
         raise NotImplementedError("Please implement this method.")
 
     def request_draw(self):

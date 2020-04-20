@@ -26,7 +26,7 @@ class Ui:
         """
         raise NotImplementedError("Please implement this method.")
 
-    def request_move(self, move):
+    def request_move(self, game):
         """
         Request the move which the user wants to make.
         :returns: A move with the following regex r'[a-h][1-8][a-h][1-8][rnbq]?'

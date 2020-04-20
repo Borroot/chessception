@@ -72,8 +72,8 @@ class Gui(Ui, tk.Frame):
         self._master.wait_variable(done)
         return int(level_chosen.get())
 
-    def request_move(self, state):
-        self.show_state(state)
+    def request_move(self, game):
+        self.show_state(game.show_state())
         move_chosen = tk.StringVar()
 
         frame = tk.Frame(self._master)

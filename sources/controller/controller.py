@@ -52,7 +52,7 @@ class Controller(threading.Thread):
             return game.get_ai(color, level)
 
     def _move(self, game, player):
-        move = player.request_move(game.state())
+        move = player.request_move(game)
         try:
             game.move(move)
         except ValueError:
@@ -62,11 +62,11 @@ class Controller(threading.Thread):
     def _round(self, game, white, black):
         onturn = white
         with white, black:
-            self._ui.show_state(game.state())
+            self._ui.show_state(game.show_state())
             while not game.game_over():
                 try:
                     self._move(game, onturn)
-                    self._ui.show_state(game.state())
+                    self._ui.show_state(game.show_state())
                     onturn = game.other(onturn, white, black)
                 except ResignException:
                     return game.other(onturn, white, black)

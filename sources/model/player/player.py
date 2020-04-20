@@ -9,7 +9,7 @@ class Player:
     def __str__(self):
         return self._color
 
-    def request_move(self, state):
+    def request_move(self, game):
         """
         Request the move which the player wants to make.
         :returns: A strings representing the move.
