@@ -6,7 +6,9 @@ import chess
 
 
 class Chess(Game):
-    LEVELS = 5
+
+    NUM_LEVELS = 5
+    NUM_PLAYERS = 2
 
     def __init__(self, unicode, invert):
         self._unicode = unicode
@@ -32,12 +34,12 @@ class Chess(Game):
     def game_over(self):
         return self._board.is_game_over()
 
-    def winner(self, white, black):
+    def winner(self, players):
         result = self._board.result()
         if result == '1-0':
-            return white
+            return players[0]
         if result == '0-1':
-            return black
+            return players[1]
         if result == '1/2-1/2':
             return None
 

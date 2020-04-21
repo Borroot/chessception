@@ -6,6 +6,7 @@ from model.game.game import DrawOfferException
 from model.player.human import Human
 import view.tui
 import threading
+from contextlib import ExitStack
 
 
 class Controller(threading.Thread):
@@ -24,8 +25,8 @@ class Controller(threading.Thread):
         while True:
             game = self._init_game()
             dobot = game.get_dobot() if self._arm else None
-            white, black = self._init_players(game)
-            winner = self._round(game, dobot, white, black)
+            players = self._init_players(game)
+            winner = self._round(game, dobot, players)
             self._ui.show_winner(winner)
             if self._arm: dobot.reset(game)
 
@@ -41,16 +42,17 @@ class Controller(threading.Thread):
             raise ValueError("A non valid game has been chosen.")
 
     def _init_players(self, game):
-        white = self._init_player(game, 'white')
-        black = self._init_player(game, 'black')
-        return white, black
+        players = []
+        for level in range(game.NUM_PLAYERS):
+            players.append(self._init_player(game, 'player ' + str(level + 1)))
+        return players
 
     def _init_player(self, game, color):
         player = self._ui.request_player(color)
         if player == 'human':
             return Human(color, self._ui, self._mic)
         else:  # player == 'computer'
-            level = self._ui.request_level(game.LEVELS)
+            level = self._ui.request_level(game.NUM_LEVELS)
             return game.get_ai(color, level)
 
     def _move(self, game, player):
@@ -61,20 +63,21 @@ class Controller(threading.Thread):
             self._ui.show_move_illegal(move)
             self._move(game, player)
 
-    def _round(self, game, dobot, white, black):
-        onturn = white
-        with white, black:
+    def _round(self, game, dobot, players):
+        onturn = 0
+        with ExitStack() as stack:
+            for player in players:
+                stack.enter_context(player)
             self._ui.show_state(game.show_state())
             while not game.game_over():
                 try:
-                    self._move(game, onturn)
+                    self._move(game, players[onturn])
                     self._ui.show_state(game.show_state())
                     if self._arm: dobot.move(game)
-                    onturn = game.other(onturn, white, black)
+                    onturn = game.next(onturn, players)
                 except ResignException:
-                    return game.other(onturn, white, black)
+                    return players[game.next(onturn, players)]
                 except DrawOfferException:
-                    if game.other(onturn, white, black).request_draw():
+                    if players[game.next(onturn, players)].request_draw():
                         return None
-
-        return game.winner(white, black)
+        return game.winner(players)

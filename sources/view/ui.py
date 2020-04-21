@@ -10,10 +10,10 @@ class Ui:
         :return: One of the games from the list.
         """
 
-    def request_player(self, color):
+    def request_player(self, name):
         """
         Request a new player.
-        :param color: The black or white player.
+        :param name: The name of the player.
         :returns: Either 'human' or 'computer'.
         """
         raise NotImplementedError("Please implement this method.")

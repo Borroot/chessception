@@ -8,6 +8,9 @@ class DrawOfferException(Exception):
 
 class Game:
 
+    NUM_LEVELS = NotImplementedError("Please implement this variable.")
+    NUM_PLAYERS = NotImplementedError("Please implement this variable.")
+
     def show_state(self):
         raise NotImplementedError("Please implement this method.")
 
@@ -22,16 +25,16 @@ class Game:
         """
         raise NotImplementedError("Please implement this method.")
 
-    def other(self, onturn, white, black):
-        return white if onturn == black else black
+    def next(self, onturn, players):
+        return (onturn + 1) % len(players)
     
     def game_over(self):
         raise NotImplementedError("Please implement this method.")
 
-    def winner(self, white, black):
+    def winner(self, players):
         """
         This function assumes that it is already checked that the game is over.
-        :return: The winner or None.
+        :return: The winner (Player) or None.
         """
         raise NotImplementedError("Please implement this method.")
 

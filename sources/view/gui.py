@@ -10,6 +10,7 @@ class Gui(Ui, tk.Frame):
     """
     This class provides a graphical user interface.
     """
+    # TODO: Add a button to close the window.
 
     def __init__(self, mic, arm, unicode):
         self._master = tk.Tk()
@@ -40,11 +41,11 @@ class Gui(Ui, tk.Frame):
         self._master.wait_variable(game_chosen)
         return game_chosen.get()
 
-    def request_player(self, color):
+    def request_player(self, name):
         self._clear()
         player_chosen = tk.StringVar()
 
-        label = tk.Label(self._master, text=color.upper(), font=('Arial Bold', 25))
+        label = tk.Label(self._master, text=name.upper(), font=('Arial Bold', 25))
         label.pack(padx=(30, 20), pady=(20, 70), anchor=tk.NW)
 
         for index, player in enumerate(['human', 'computer']):

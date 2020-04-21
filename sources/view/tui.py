@@ -39,8 +39,8 @@ class Tui(Ui):
         answer = games[int(self._ask(question, regex))]
         return answer
 
-    def request_player(self, color):
-        question = 'Please choose a player for {}.\n  (0) Human\n  (1) Computer'.format(color)
+    def request_player(self, name):
+        question = 'Please choose a type for {}.\n  (0) Human\n  (1) Computer'.format(name)
         regex = r'^[01]$'
         return 'human' if self._ask(question, regex) == '0' else 'computer'
 

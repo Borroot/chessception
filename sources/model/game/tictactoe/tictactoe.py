@@ -3,6 +3,8 @@ from model.game.game import Game
 
 class Tictactoe(Game):
 
+    NUM_PLAYERS = 2
+
     def __init__(self):
         self._board = ['.' for i in range(9)]
         self._moves = []
@@ -57,12 +59,13 @@ class Tictactoe(Game):
                 return False
         return True
 
-    def winner(self, white, black):
-        assert self.game_over()
+    def winner(self, players):
+        if not self.game_over():
+            raise ValueError("The game is not game over yet.")
         if self._won() == 'X':
-            return white
+            return players[0]
         if self._won() == 'O':
-            return black
+            return players[1]
         return None
 
     def get_ai(self, color, level):
