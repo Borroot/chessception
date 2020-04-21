@@ -59,8 +59,8 @@ class Controller(threading.Thread):
         move = player.request_move(game)
         try:
             game.move(move)
-        except ValueError:
-            self._ui.show_move_illegal(move)
+        except ValueError as e:
+            self._ui.show_move_illegal(str(e))
             self._move(game, player)
 
     def _round(self, game, dobot, players):

@@ -25,11 +25,15 @@ class Chess(Game):
         return self._board
 
     def move(self, move):
-        move = chess.Move.from_uci(move)
+        try:
+            move = chess.Move.from_uci(move)
+        except ValueError:
+            raise ValueError("The move {} is invalid.\nPlease use valid regex: ^[a-h][1-8][a-h][1-8][rnbq]?$".format(move))
+
         if move in self._board.legal_moves:
             self._board.push(move)
         else:
-            raise ValueError("The move is invalid.")
+            raise ValueError("The move {} is illegal.".format(move))
 
     def game_over(self):
         return self._board.is_game_over()

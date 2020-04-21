@@ -47,10 +47,10 @@ class Ui:
         """
         raise NotImplementedError("Please implement this method.")
 
-    def show_move_illegal(self, move):
+    def show_move_illegal(self, regex):
         """
         Show information telling that the move is illegal.
-        :param move: The illegal move.
+        :param regex: The regex for a valid move.
         """
         raise NotImplementedError("Please implement this method.")
 

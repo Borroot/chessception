@@ -33,16 +33,16 @@ class Tui(Ui):
     def request_game(self, games):
         question = 'Please choose a game.\n'
         for index, game in enumerate(games):
-            question = question + '  ({0}) {1}'.format(index, game)
+            question = question + '  ({0}) {1}'.format(index + 1, game)
             question = question + '\n' if index < len(games) - 1 else question
-        regex = r'^[0-' + str(len(games) - 1) + r']$'
-        answer = games[int(self._ask(question, regex))]
+        regex = r'^[1-' + str(len(games)) + r']$'
+        answer = games[int(self._ask(question, regex)) - 1]
         return answer
 
     def request_player(self, name):
-        question = 'Please choose a type for {}.\n  (0) Human\n  (1) Computer'.format(name)
-        regex = r'^[01]$'
-        return 'human' if self._ask(question, regex) == '0' else 'computer'
+        question = 'Please choose a type for {}.\n  (1) Human\n  (2) Computer'.format(name)
+        regex = r'^[12]$'
+        return 'human' if self._ask(question, regex) == '1' else 'computer'
 
     def request_level(self, levels):
         question = 'Please choose a difficulity level from 1 to {0}.'.format(levels)
@@ -63,8 +63,8 @@ class Tui(Ui):
         regex = r'^[01]$'
         return True if self._ask(question, regex) == '1' else False
 
-    def show_move_illegal(self, move):
-        print('The move {} is invalid.'.format(move))
+    def show_move_illegal(self, error):
+        print(error)
 
     def show_state(self, state):
         print()

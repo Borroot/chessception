@@ -127,16 +127,20 @@ class Gui(Ui, tk.Frame):
     def show_state(self, state):
         self._clear()
         # TODO: Show the state monospaced when using unicode characters.
+        # TODO: Make the size depended on the number of characters, i.e. for tic tac toe it will be bigger than for chess.
         label = tk.Label(self._master, text=state, font=('Monospace', 17))
         label.grid(padx=40, pady=90, row=0, column=0)
 
-    def show_move_illegal(self, move):
+    def show_move_illegal(self, error):
+        # TODO: Show the error message.
         pass
 
     def show_speech_talk(self):
+        # TODO: Show that the user has to talk in the microphone to give his move.
         pass
 
     def show_speech_error(self):
+        # TODO: Show that the speech was not recognised.
         pass
 
     def show_winner(self, winner):

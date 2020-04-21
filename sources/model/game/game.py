@@ -21,7 +21,7 @@ class Game:
         """
         Make the move and update the state.
         :param move: The move to be made.
-        :raises ValueError: If the move is invalid.
+        :raises ValueError: If the move is invalid. The text contains a regex of a valid move.
         """
         raise NotImplementedError("Please implement this method.")
 

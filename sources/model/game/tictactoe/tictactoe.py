@@ -1,4 +1,5 @@
 from model.game.game import Game
+import re
 
 
 class Tictactoe(Game):
@@ -21,12 +22,15 @@ class Tictactoe(Game):
         return self._board
 
     def move(self, move):
-        if self._board[int(move)] != '.' or int(move) < 0 or int(move) > 8:
-            raise ValueError("This move is invalid.")
+        if not re.match(r'^[1-9]$', move):
+            raise ValueError("The move {} is invalid.\nPlease use valid regex: ^[1-9]$".format(move))
+        if self._board[int(move) - 1] != '.':
+            raise ValueError("The move {} is illegal.\nThe target cell is not empty.".format(move))
+
         if len(self._moves) % 2 == 0:
-            self._board[int(move)] = 'X'
+            self._board[int(move) - 1] = 'X'
         else:
-            self._board[int(move)] = 'O'
+            self._board[int(move) - 1] = 'O'
         self._moves.append(int(move))
 
     def _won(self):
