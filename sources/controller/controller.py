@@ -1,4 +1,4 @@
-from model.game.checkers.checkers import Checkers
+from model.game.tictactoe.tictactoe import Tictactoe
 from model.game.chess.chess import Chess
 from model.game.game import ResignException
 from model.game.game import DrawOfferException
@@ -27,16 +27,16 @@ class Controller(threading.Thread):
             white, black = self._init_players(game)
             winner = self._round(game, dobot, white, black)
             self._ui.show_winner(winner)
-            dobot.reset(game)
+            if self._arm: dobot.reset(game)
 
     def _init_game(self):
-        games = ['chess', 'checkers']
+        games = ['chess', 'tictactoe']
         chosen = self._ui.request_game(games)
         if chosen == 'chess':
             invert = True if type(self._ui) is view.tui.Tui else False
             return Chess(self._unicode, invert)
-        elif chosen == 'checkers':
-            return Checkers()
+        elif chosen == 'tictactoe':
+            return Tictactoe()
         else:
             raise ValueError("A non valid game has been chosen.")
 
@@ -69,8 +69,7 @@ class Controller(threading.Thread):
                 try:
                     self._move(game, onturn)
                     self._ui.show_state(game.show_state())
-                    if self._arm:
-                        dobot.move(game)
+                    if self._arm: dobot.move(game)
                     onturn = game.other(onturn, white, black)
                 except ResignException:
                     return game.other(onturn, white, black)

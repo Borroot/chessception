@@ -8,6 +8,9 @@ class DrawOfferException(Exception):
 
 class Game:
 
+    def show_state(self):
+        raise NotImplementedError("Please implement this method.")
+
     def state(self):
         raise NotImplementedError("Please implement this method.")
 
@@ -26,6 +29,10 @@ class Game:
         raise NotImplementedError("Please implement this method.")
 
     def winner(self, white, black):
+        """
+        This function assumes that it is already checked that the game is over.
+        :return: The winner or None.
+        """
         raise NotImplementedError("Please implement this method.")
 
     def get_ai(self, color, level):
