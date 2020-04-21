@@ -8,11 +8,12 @@ class Tictactoe(Game):
         self._moves = []
 
     def show_state(self):
+        builder = ''
         for index, cell in enumerate(self._board):
+            builder += str(cell)
             if index == 2 or index == 5:
-                print(cell)
-            else:
-                print(cell, end='')
+                builder += '\n'
+        return builder
 
     def state(self):
         return self._board

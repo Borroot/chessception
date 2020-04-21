@@ -30,12 +30,12 @@ class Controller(threading.Thread):
             if self._arm: dobot.reset(game)
 
     def _init_game(self):
-        games = ['chess', 'tictactoe']
+        games = ['chess', 'tic tac toe']
         chosen = self._ui.request_game(games)
         if chosen == 'chess':
             invert = True if type(self._ui) is view.tui.Tui else False
             return Chess(self._unicode, invert)
-        elif chosen == 'tictactoe':
+        elif chosen == 'tic tac toe':
             return Tictactoe()
         else:
             raise ValueError("A non valid game has been chosen.")
