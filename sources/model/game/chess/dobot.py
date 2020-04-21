@@ -32,28 +32,38 @@ class Dobot(model.hardware.dobot.Dobot):
 
     def move(self, game):
         # TODO: Add support for promoting.
-        # TODO: Add support for castling.
-        moves = []
         move = game.state().pop()
+        moves = []
 
-        # Free up the square if needed.
-        if game.state().is_capture(move):
-            index = ord(move.uci()[2]) - ord('a') + (int(move.uci()[3]) - 1) * 8
-            piece = game.state().piece_at(chess.SQUARES[index])
-
+        if game.state().is_castling(move):
             turn = game.state().turn
-            if turn == chess.WHITE:
-                coordinates = (self._convert_uci(move.uci()[2:]), self._convert_black_stack())
-                moves.append(coordinates)
-                self._black_stack.append(piece)
-            else:  # turn == chess.BLACK
-                coordinates = (self._convert_uci(move.uci()[2:]), self._convert_white_stack())
-                moves.append(coordinates)
-                self._white_stack.append(piece)
+            if game.state().is_kingside_castling(move):
+                coordinates_king = ((4, 2), (6, 2)) if turn == chess.WHITE else ((4, 9), (6, 9))
+                coordinates_rook = ((7, 2), (5, 2)) if turn == chess.WHITE else ((7, 9), (5, 9))
+            else:  # is queenside castling
+                coordinates_king = ((4, 2), (2, 2)) if turn == chess.WHITE else ((4, 9), (2, 9))
+                coordinates_rook = ((0, 2), (3, 2)) if turn == chess.WHITE else ((0, 9), (3, 9))
+            moves.append(coordinates_king)
+            moves.append(coordinates_rook)
+        else:
+            # Free up the square if needed.
+            if game.state().is_capture(move):
+                index = ord(move.uci()[2]) - ord('a') + (int(move.uci()[3]) - 1) * 8
+                piece = game.state().piece_at(chess.SQUARES[index])
 
-        # Move to the square.
-        coordinates = (self._convert_uci(move.uci()[:2]), self._convert_uci(move.uci()[2:4]))
-        moves.append(coordinates)
+                turn = game.state().turn
+                if turn == chess.WHITE:
+                    coordinates = (self._convert_uci(move.uci()[2:]), self._convert_black_stack())
+                    moves.append(coordinates)
+                    self._black_stack.append(piece)
+                else:  # turn == chess.BLACK
+                    coordinates = (self._convert_uci(move.uci()[2:]), self._convert_white_stack())
+                    moves.append(coordinates)
+                    self._white_stack.append(piece)
+
+            # Move to the square.
+            coordinates = (self._convert_uci(move.uci()[:2]), self._convert_uci(move.uci()[2:4]))
+            moves.append(coordinates)
 
         game.state().push(move)
         self.send_all(moves)
@@ -65,5 +75,3 @@ class Dobot(model.hardware.dobot.Dobot):
         # TODO: Move all the pieces on the board AND in the stacks to their initial position.
         print("The dobot arm is resetting the board now.")
         pass
-
-
