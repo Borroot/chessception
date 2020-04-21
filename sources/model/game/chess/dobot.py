@@ -16,27 +16,22 @@ class Dobot(model.hardware.dobot.Dobot):
         """
         return ord(uci[0]) - ord('a'), int(uci[1]) + 1
 
-    def _convert_white_stack(self):
+    def _next_stack(self, color):
         """
-        Calculate the next free position on the white stack.
+        Calculate the next free position on the given stack.
         :return: A coordinate tuple.
         """
-        return len(self._white_stack) % 8, 11 - int(len(self._white_stack) / 8)
+        if color == chess.WHITE:
+            return len(self._white_stack) % 8, 11 - int(len(self._white_stack) / 8)
+        else:  # color == chess.BLACK
+            return len(self._black_stack) % 8, int(len(self._black_stack) / 8)
 
-    def _convert_black_stack(self):
-        """
-        Calculate the next free position on the black stack.
-        :return: A coordinate tuple.
-        """
-        return len(self._black_stack) % 8, int(len(self._black_stack) / 8)
-
-    def move(self, game):
+    def moves(self, game):
         """
         Convert the last move to coordinates which can be understood by the dobot arm.
-        Let the dobot arm make these moves as well.
         """
         # TODO: Add support for promoting.
-        move = game.state().pop()
+        move = game.state().pop()  # raises IndexError if empty
         moves = []
 
         if game.state().is_castling(move):
@@ -57,11 +52,11 @@ class Dobot(model.hardware.dobot.Dobot):
 
                 turn = game.state().turn
                 if turn == chess.WHITE:
-                    coordinates = (self._convert_uci(move.uci()[2:]), self._convert_black_stack())
+                    coordinates = (self._convert_uci(move.uci()[2:]), self._next_stack(chess.WHITE))
                     moves.append(coordinates)
                     self._black_stack.append(piece)
                 else:  # turn == chess.BLACK
-                    coordinates = (self._convert_uci(move.uci()[2:]), self._convert_white_stack())
+                    coordinates = (self._convert_uci(move.uci()[2:]), self._next_stack(chess.BLACK))
                     moves.append(coordinates)
                     self._white_stack.append(piece)
 
@@ -70,11 +65,34 @@ class Dobot(model.hardware.dobot.Dobot):
             moves.append(coordinates)
 
         game.state().push(move)
+        return moves
+
+    def move(self, game):
+        moves = self.moves(game)
         self.send_all(moves)
 
         print("White Stack:", self._white_stack)
         print("Black Stack:", self._black_stack)
 
     def reset(self, game):
-        # TODO: Move all the pieces on the board AND in the stacks to their initial position.
-        print("The dobot arm is resetting the board now.")
+        moves_actual = []
+        moves_reverse = []
+
+        done = False
+        while not done:
+            try:
+                moves = self.moves(game)
+                for move in moves:
+                    moves_reverse.append((move[1], move[0]))
+                moves_actual.append(game.state().pop())
+            except IndexError:
+                done = True
+
+        # Restore the final state of the board.
+        moves_actual.reverse()
+        for move in moves_actual:
+            game.state().push(move)
+
+        self._white_stack.clear()
+        self._black_stack.clear()
+        self.send_all(moves_reverse)
