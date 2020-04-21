@@ -31,6 +31,10 @@ class Dobot(model.hardware.dobot.Dobot):
         return len(self._black_stack) % 8, int(len(self._black_stack) / 8)
 
     def move(self, game):
+        """
+        Convert the last move to coordinates which can be understood by the dobot arm.
+        Let the dobot arm make these moves as well.
+        """
         # TODO: Add support for promoting.
         move = game.state().pop()
         moves = []
@@ -74,4 +78,3 @@ class Dobot(model.hardware.dobot.Dobot):
     def reset(self, game):
         # TODO: Move all the pieces on the board AND in the stacks to their initial position.
         print("The dobot arm is resetting the board now.")
-        pass

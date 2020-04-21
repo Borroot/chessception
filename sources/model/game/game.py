@@ -30,3 +30,9 @@ class Game:
 
     def get_ai(self, color, level):
         raise NotImplementedError("Please implement this method.")
+
+    def get_speech(self):
+        raise NotImplementedError("Please implement this method.")
+
+    def get_dobot(self):
+        raise NotImplementedError("Please implement this method.")
