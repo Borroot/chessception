@@ -1,8 +1,8 @@
-from model.player.computer import Computer
+import model.player.computer
 import chess.engine
 
 
-class ComputerChess(Computer):
+class Computer(model.player.computer.Computer):
     """
     This class describes a computer player powered by a chess engine.
     """
@@ -16,8 +16,8 @@ class ComputerChess(Computer):
         self._engine = chess.engine.SimpleEngine.popen_uci(self._ENGINE_PATH)
         return self
 
-    def request_move(self, board):
-        move = self._engine.play(board, chess.engine.Limit(time=self._time)).move
+    def request_move(self, game):
+        move = self._engine.play(game.state(), chess.engine.Limit(time=self._time)).move
         return move.__str__()
 
     def request_draw(self):

@@ -1,4 +1,4 @@
-from model.hardware.speech import _extract
+from model.game.chess.speech import Speech
 import pytest
 
 
@@ -14,7 +14,7 @@ def test_extract_exact():
         ['apple won bean 1', 'a1b1']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_number_first():
@@ -29,7 +29,7 @@ def test_extract_number_first():
         ['apple 8 to bean 1', 'a8b1']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_number_second():
@@ -44,7 +44,7 @@ def test_extract_number_second():
         ['apple 1 to bean 8', 'a1b8']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_number_roman_first():
@@ -59,7 +59,7 @@ def test_extract_number_roman_first():
         ['apple viii to bean 1', 'a8b1']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_number_roman_second():
@@ -74,7 +74,7 @@ def test_extract_number_roman_second():
         ['apple 1 to bean viii', 'a1b8']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_letter_first():
@@ -89,7 +89,7 @@ def test_extract_letter_first():
         ['honey 1 to apple 2', 'h1a2']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_letter_second():
@@ -104,7 +104,7 @@ def test_extract_letter_second():
         ['apple 1 to honey 2', 'a1h2']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_seperator():
@@ -114,7 +114,7 @@ def test_extract_seperator():
         ['apple 1 towards bean 2', 'a1b2']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_size_short():
@@ -128,7 +128,7 @@ def test_extract_size_short():
         ['lorem ipsum a1 towards b2 lorem ipsum', 'a1b2']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_size_long():
@@ -142,7 +142,7 @@ def test_extract_size_long():
         ['lorem ipsum apple 1 towards bean 2 lorem ipsum', 'a1b2']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_upper_lower_roman():
@@ -157,7 +157,7 @@ def test_extract_upper_lower_roman():
         ['apple VIII towards bean 2', 'a8b2']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_upper_lower_short():
@@ -168,7 +168,7 @@ def test_extract_upper_lower_short():
         ['A1 towards B2', 'a1b2']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_upper_lower_long():
@@ -179,7 +179,7 @@ def test_extract_upper_lower_long():
         ['Apple 1 towards Bean 2', 'a1b2']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_upper_lower_seperator():
@@ -190,7 +190,7 @@ def test_extract_upper_lower_seperator():
         ['apple 1 TOWARDS bean 2', 'a1b2']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_upper_lower_synonyms():
@@ -222,7 +222,7 @@ def test_extract_upper_lower_synonyms():
         ['apple ATE towards bean 2', 'a8b2']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_duplicates_short():
@@ -232,7 +232,7 @@ def test_extract_duplicates_short():
         ['c3 a1 towards b2 c3', 'a1b2']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_duplicates_long():
@@ -242,7 +242,7 @@ def test_extract_duplicates_long():
         ['carrot 3 apple 1 towards bean 2 carrot 3', 'a1b2']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_duplicates_combined():
@@ -279,7 +279,7 @@ def test_extract_duplicates_combined():
         ['c3 a1 towards b2 carrot 3', 'a1b2']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_synonyms():
@@ -311,7 +311,7 @@ def test_extract_synonyms():
         ['apple ate towards bean 2', 'a8b2']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_combined():
@@ -323,7 +323,7 @@ def test_extract_combined():
         ['apple 1 towards bean two', 'a1b2']]
 
     for case in cases:
-        assert _extract(case[0]) == case[1]
+        assert Speech.extract(case[0]) == case[1]
 
 
 def test_extract_error_number_short():
@@ -339,7 +339,7 @@ def test_extract_error_number_short():
 
     for case in cases:
         with pytest.raises(ValueError):
-            _extract(case)
+            Speech.extract(case)
 
 
 def test_extract_error_number_long():
@@ -358,7 +358,7 @@ def test_extract_error_number_long():
 
     for case in cases:
         with pytest.raises(ValueError):
-            _extract(case)
+            Speech.extract(case)
 
 
 def test_extract_error_letter_short():
@@ -371,7 +371,7 @@ def test_extract_error_letter_short():
 
     for case in cases:
         with pytest.raises(ValueError):
-            _extract(case)
+            Speech.extract(case)
 
 
 def test_extract_error_letter_long():
@@ -384,7 +384,7 @@ def test_extract_error_letter_long():
 
     for case in cases:
         with pytest.raises(ValueError):
-            _extract(case)
+            Speech.extract(case)
 
 
 def test_extract_error_missing():
@@ -397,4 +397,4 @@ def test_extract_error_missing():
 
     for case in cases:
         with pytest.raises(ValueError):
-            _extract(case)
+            Speech.extract(case)

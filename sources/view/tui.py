@@ -49,7 +49,7 @@ class Tui(Ui):
         regex = r'^[1-' + str(levels) + r']$'
         return int(self._ask(question, regex))
 
-    def request_move(self, state):
+    def request_move(self, game):
         response = input('> ').lower()
         if response == 'resign':
             raise ResignException()

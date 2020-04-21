@@ -1,14 +1,23 @@
-from model.player.computer_chess import ComputerChess
+from model.game.chess.computer import Computer
+from model.game.chess.speech import Speech
+from model.game.chess.dobot import Dobot
 from model.game.game import Game
 import chess
-import model.game.chess.board
 
 
 class Chess(Game):
     LEVELS = 5
 
     def __init__(self, unicode, invert):
-        self._board = model.game.chess.board.Board(unicode, invert)
+        self._unicode = unicode
+        self._invert = invert
+        self._board = chess.Board()
+
+    def show_state(self):
+        if self._unicode:
+            return self._board.unicode(invert_color=self._invert)
+        else:
+            return self._board.__str__()
 
     def state(self):
         return self._board
@@ -33,4 +42,11 @@ class Chess(Game):
             return None
 
     def get_ai(self, color, level):
-        return ComputerChess(color, level)
+        return Computer(color, level)
+
+    def get_speech(self):
+        return Speech()
+
+    def get_dobot(self):
+        return Dobot()
+

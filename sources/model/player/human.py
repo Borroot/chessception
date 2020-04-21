@@ -1,4 +1,3 @@
-from model.hardware.speech import Speech
 from model.player.player import Player
 
 
@@ -15,17 +14,17 @@ class Human(Player):
     def __enter__(self):
         return self
 
-    def request_move(self, state):
+    def request_move(self, game):
         if not self._mic:
-            return self._ui.request_move(state)
+            return self._ui.request_move(game)
         else:
-            speech = Speech()
+            speech = game.get_speech()
             try:
                 self._ui.show_speech_talk()
                 return speech.move()
             except ValueError:
                 self._ui.show_speech_error()
-                return self.request_move(state)
+                return self.request_move(game)
 
     def request_draw(self):
         return self._ui.request_draw()
