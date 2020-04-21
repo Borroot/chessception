@@ -75,6 +75,7 @@ class Dobot(model.hardware.dobot.Dobot):
         print("Black Stack:", self._black_stack)
 
     def reset(self, game):
+        # TODO: Add support for promoting.
         moves_actual = []
         moves_reverse = []
 
