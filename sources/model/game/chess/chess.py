@@ -7,7 +7,7 @@ import chess
 
 class Chess(Game):
 
-    NUM_LEVELS = 5
+    NUM_LEVELS = Computer.NUM_LEVELS
     NUM_PLAYERS = 2
 
     def __init__(self, unicode, invert):

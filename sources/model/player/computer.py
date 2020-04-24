@@ -6,12 +6,12 @@ class Computer(Player):
     This class describes a computer player powered by a chess engine.
     """
 
-    def __init__(self, color, time):
+    def __init__(self, name, level):
         """
         :param time: Amount of time allowed to think about each move (e.g. 1.0).
         """
-        super().__init__(color)
-        self._time = time
+        super().__init__(name)
+        self._level = level
 
     def __enter__(self):
         raise NotImplementedError("Please implement this method.")

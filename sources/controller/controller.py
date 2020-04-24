@@ -22,13 +22,15 @@ class Controller(threading.Thread):
         self._unicode = unicode
 
     def run(self):
-        while True:
+        count = 1 if type(self._ui) is view.tui.Tui else -1
+        while count != 0:
             game = self._init_game()
             dobot = game.get_dobot() if self._arm else None
             players = self._init_players(game)
             winner = self._round(game, dobot, players)
             self._ui.show_winner(winner)
             if self._arm: dobot.reset(game)
+            if count > 0: count -= 1
 
     def _init_game(self):
         games = ['chess', 'tic tac toe']
@@ -47,13 +49,13 @@ class Controller(threading.Thread):
             players.append(self._init_player(game, 'player ' + str(level + 1)))
         return players
 
-    def _init_player(self, game, color):
-        player = self._ui.request_player(color)
+    def _init_player(self, game, name):
+        player = self._ui.request_player(name)
         if player == 'human':
-            return Human(color, self._ui, self._mic)
+            return Human(name, self._ui, self._mic)
         else:  # player == 'computer'
             level = self._ui.request_level(game.NUM_LEVELS)
-            return game.get_ai(color, level)
+            return game.get_ai(name, level)
 
     def _move(self, game, player):
         move = player.request_move(game)
