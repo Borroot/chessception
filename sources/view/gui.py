@@ -74,6 +74,7 @@ class Gui(Ui, tk.Frame):
         return int(level_chosen.get())
 
     def request_move(self, game):
+        # TODO: Make this screen beautiful.
         self.show_state(game.show_state())
         move_chosen = tk.StringVar()
 
