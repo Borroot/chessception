@@ -1,5 +1,6 @@
 from model.game.game import Game
 from model.game.tictactoe.computer import Computer
+from model.game.tictactoe.dobot import Dobot
 import re
 
 
@@ -10,7 +11,7 @@ class Tictactoe(Game):
 
     def __init__(self):
         self.board = ['.' for i in range(9)]
-        self._moves = []
+        self.moves = []
 
     def show_state(self):
         builder = ''
@@ -29,11 +30,11 @@ class Tictactoe(Game):
         if self.board[int(move) - 1] != '.':
             raise ValueError("The move {} is illegal.\nThe target cell is not empty.".format(move))
 
-        if len(self._moves) % 2 == 0:
+        if len(self.moves) % 2 == 0:
             self.board[int(move) - 1] = 'X'
         else:
             self.board[int(move) - 1] = 'O'
-        self._moves.append(int(move))
+        self.moves.append(int(move) - 1)
 
     def won(self):
         """
@@ -81,4 +82,4 @@ class Tictactoe(Game):
         pass
 
     def get_dobot(self):
-        pass
+        return Dobot()

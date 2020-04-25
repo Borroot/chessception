@@ -46,11 +46,9 @@ class Computer(model.player.computer.Computer):
         bestmoves = []
         for move in [index for index, cell in enumerate(game.board) if cell == '.']:
             game.board[move] = symbol
-            print(game.board, game.won())
             value = -self._negamax(game, -1000000, 10000000, -1, symbol)
             game.board[move] = '.'
 
-            print(value)
             if value > best:
                 best = value
                 bestmoves.clear()
@@ -58,7 +56,6 @@ class Computer(model.player.computer.Computer):
             elif value == best:
                 bestmoves.append(move)
 
-        print(bestmoves)
         return str(bestmoves[random.randint(0, len(bestmoves) - 1)] + 1)
 
     def request_move(self, game):

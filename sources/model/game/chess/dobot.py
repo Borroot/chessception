@@ -3,11 +3,46 @@ import chess
 
 
 class Dobot(model.hardware.dobot.Dobot):
+    """
+    This class describes coordinate conversions and a board reset function for chess which can be used
+    for the dobot arm. The physical board layout is as follows.
+
+        +---+---+---+---+---+---+---+---+
+     11 |   |   |   |   |   |   |   |   | = self._white_stack
+        +---+---+---+---+---+---+---+---+
+     10 |   |   |   |   |   |   |   |   | PIECES TAKEN BY BLACK
+        +---+---+---+---+---+---+---+---+
+
+        +---+---+---+---+---+---+---+---+
+      9 |   |   |   |   |   |   |   |   |  BLACK
+        +---+---+---+---+---+---+---+---+
+      8 |   |   |   |   |   |   |   |   |
+        +---+---+---+---+---+---+---+---+
+      7 |   |   |   |   |   |   |   |   |
+        +---+---+---+---+---+---+---+---+
+      6 |   |   |   |   |   |   |   |   |
+        +---+---+---+---+---+---+---+---+
+      5 |   |   |   |   |   |   |   |   |
+        +---+---+---+---+---+---+---+---+
+      4 |   |   |   |   |   |   |   |   |
+        +---+---+---+---+---+---+---+---+
+      3 |   |   |   |   |   |   |   |   |
+        +---+---+---+---+---+---+---+---+
+      2 |   |   |   |   |   |   |   |   |  WHITE
+        +---+---+---+---+---+---+---+---+
+
+        +---+---+---+---+---+---+---+---+
+      1 |   |   |   |   |   |   |   |   | PIECES TAKEN BY WHITE
+        +---+---+---+---+---+---+---+---+
+      0 |   |   |   |   |   |   |   |   | = self._black_stack
+        +---+---+---+---+---+---+---+---+
+          0   1   2   3   4   5   6   7
+    """
 
     def __init__(self):
         super().__init__()
-        self._white_stack = []  # Contains of white pieces, i.e. pieces taken by black.
-        self._black_stack = []  # Contains of black pieces, i.e. pieces taken by white.
+        self._white_stack = []  # Contains the taken white pieces, i.e. pieces taken by black from white.
+        self._black_stack = []  # Contains the taken black pieces, i.e. pieces taken by white from black.
 
     def _convert_uci(self, uci):
         """
@@ -26,11 +61,10 @@ class Dobot(model.hardware.dobot.Dobot):
         else:  # color == chess.BLACK
             return len(self._black_stack) % 8, int(len(self._black_stack) / 8)
 
-    def moves(self, game):
+    def _moves(self, game):
         """
         Convert the last move to coordinates which can be understood by the dobot arm.
         """
-        # TODO: Add support for promoting.
         move = game.state().pop()  # raises IndexError if empty
         moves = []
 
@@ -68,21 +102,21 @@ class Dobot(model.hardware.dobot.Dobot):
         return moves
 
     def move(self, game):
-        moves = self.moves(game)
+        moves = self._moves(game)
         self.send_all(moves)
 
         print("White Stack:", self._white_stack)
         print("Black Stack:", self._black_stack)
 
     def reset(self, game):
-        # TODO: Add support for promoting.
+        # TODO: Rewrite more efficiently and fix taken pieces.
         moves_actual = []
         moves_reverse = []
 
         done = False
         while not done:
             try:
-                moves = self.moves(game)
+                moves = self._moves(game)
                 for move in moves:
                     moves_reverse.append((move[1], move[0]))
                 moves_actual.append(game.state().pop())
