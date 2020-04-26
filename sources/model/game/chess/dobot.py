@@ -110,24 +110,5 @@ class Dobot(model.hardware.dobot.Dobot):
 
     def reset(self, game):
         # TODO: Rewrite more efficiently and fix taken pieces.
-        moves_actual = []
-        moves_reverse = []
-
-        done = False
-        while not done:
-            try:
-                moves = self._moves(game)
-                for move in moves:
-                    moves_reverse.append((move[1], move[0]))
-                moves_actual.append(game.state().pop())
-            except IndexError:
-                done = True
-
-        # Restore the final state of the board.
-        moves_actual.reverse()
-        for move in moves_actual:
-            game.state().push(move)
-
         self._white_stack.clear()
         self._black_stack.clear()
-        self.send_all(moves_reverse)
