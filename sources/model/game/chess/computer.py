@@ -8,7 +8,7 @@ class Computer(model.player.computer.Computer):
     """
 
     NUM_LEVELS = 5
-    _ENGINE_PATH = "../../stockfish/src/stockfish"
+    _ENGINE_PATH = "/usr/games/stockfish"
 
     def __init__(self, name, level):
         super().__init__(name, level)
@@ -18,7 +18,7 @@ class Computer(model.player.computer.Computer):
         return self
 
     def request_move(self, game):
-        move = self._engine.play(game.state(), chess.engine.Limit(time=self._level)).move
+        move = self._engine.play(game.state(), chess.engine.Limit(time=(self._level/5))).move
         return move.__str__()
 
     def request_draw(self):
