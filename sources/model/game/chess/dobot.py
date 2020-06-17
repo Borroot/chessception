@@ -43,6 +43,7 @@ class Dobot(model.hardware.dobot.Dobot):
         super().__init__()
         self._white_stack = []  # Contains the taken white pieces, i.e. pieces taken by black from white.
         self._black_stack = []  # Contains the taken black pieces, i.e. pieces taken by white from black.
+        self._serial_port.write(b'0') #Let arduino know that the game is going to be chess
 
     def _convert_uci(self, uci):
         """
@@ -110,5 +111,6 @@ class Dobot(model.hardware.dobot.Dobot):
 
     def reset(self, game):
         # TODO: Rewrite more efficiently and fix taken pieces.
+        self._serial_port.write("GAME OVER".encode())
         self._white_stack.clear()
         self._black_stack.clear()
