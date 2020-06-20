@@ -14,8 +14,9 @@ class Dobot:
         Send all moves to Dobot/Arduino that need to be executed in this turn.
         Before sending the moves, first send the number of moves that are going to be sent.
         """
+        sendMoves = "<" + str(len(moves)) + ">"
         movesProcessed = False
-        self._serial_port.write(b'%d' %len(moves))
+        self._serial_port.write(sendMoves.encode())
         for move in moves:
             self.send_one(move)
         #wait for arduino to process the move(s)
@@ -32,7 +33,7 @@ class Dobot:
         # Example input: [((0,3),(0,5))] = 'a2a4'.
         for i in range(0,2):
             for j in range (0,2):
-                self._serial_port.write(b'%d' %move[i][j])
+                self._serial_port.write(("<" + str(move[i][j]) + ">").encode())
 
     def move(self, game):
         """
