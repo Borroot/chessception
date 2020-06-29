@@ -11,7 +11,6 @@ class Gui(Ui, tk.Frame):
     """
     This class provides a graphical user interface.
     """
-    # TODO: Add a button to close the window.
 
     def __init__(self, mic, arm, unicode):
         self.background_colour = "White"
@@ -25,6 +24,7 @@ class Gui(Ui, tk.Frame):
         self._master.geometry("800x480")
         self._master.title("Chessception!")
         self._master.configure(bg=self.background_colour)
+
         self._master.mainloop()
 
     def _clear(self):
@@ -34,11 +34,13 @@ class Gui(Ui, tk.Frame):
     def request_game(self, games):
         self._clear()
         game_chosen = tk.StringVar()
-
+        # Button to exit gui
+        button = tk.Button(self._master, text="Quit", command=self._master.destroy, relief=tk.RIDGE, font=('Arial Bold', 15), bg=self.button_colour)
+        button.pack(anchor=tk.NE)
         for index, game in enumerate(games):
-            padding = (150, 10) if index == 0 else 10
+            padding = (105, 10) if index == 0 else 10
             event_game = functools.partial(game_chosen.set, game)
-            button = tk.Button(self._master, relief = tk.RIDGE, text=game.upper(), font=('Arial Bold', 30), bg=self.button_colour, command=event_game)
+            button = tk.Button(self._master, relief=tk.RIDGE, text=game.upper(), font=('Arial Bold', 30), bg=self.button_colour, command=event_game)
             button.pack(padx=200, pady=padding, fill=tk.X, anchor=tk.CENTER)
 
         self._master.wait_variable(game_chosen)
@@ -133,7 +135,6 @@ class Gui(Ui, tk.Frame):
         self._clear()
         frame_board = tk.Frame(self._master, bg=self.background_colour)
         frame_board.grid(row=0, column=0, sticky="nsew")
-        # TODO: Padding
 
         inner_frame = tk.Frame(frame_board, bg=self.background_colour)
 
