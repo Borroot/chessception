@@ -32,7 +32,7 @@ class Dobot(model.hardware.dobot.Dobot):
         super().__init__()
         self._x_stack = 5  # Contains the X's pieces.
         self._o_stack = 5  # Contains the O's pieces.
-        self._serial_port.write("<1>".encode()) #Let arduino know that the game is going to be tictactoe
+        self.init_serial(1) #Let arduino know that the game is going to be tictactoe
 
     def _convert_move(self, move):
         """
