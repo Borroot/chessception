@@ -3,8 +3,8 @@ from model.game.game import ResignException, DrawOfferException
 from view.ui import Ui
 
 import tkinter as tk
-from tkinter.ttk import *
 import functools
+import sys
 
 
 class Gui(Ui, tk.Frame):
@@ -14,7 +14,7 @@ class Gui(Ui, tk.Frame):
 
     def __init__(self, mic, arm, unicode):
         self.background_colour = "White"
-        self.button_colour = "red2"
+        self.button_colour = "DarkOrange1"
 
         self._master = tk.Tk()
 
@@ -34,7 +34,6 @@ class Gui(Ui, tk.Frame):
     def request_game(self, games):
         self._clear()
         game_chosen = tk.StringVar()
-        # Button to exit gui
         button = tk.Button(self._master, text="Quit", command=self._master.destroy, relief=tk.RIDGE, font=('Arial Bold', 15), bg=self.button_colour)
         button.pack(anchor=tk.NE)
         for index, game in enumerate(games):
@@ -162,8 +161,7 @@ class Gui(Ui, tk.Frame):
 
     def show_message(self, message):
         self._clear()
-        label = tk.Label(self._master, text=message, font=('Arial Bold', 20),
-                         bg=self.background_colour)
+        label = tk.Label(self._master, text=message, font=('Arial Bold', 20), bg=self.background_colour)
         label.pack(pady=30, anchor=tk.N)
 
         frame = tk.Frame(self._master, bg=self.background_colour)

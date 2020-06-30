@@ -1,13 +1,15 @@
 import serial
 
+
 class Dobot:
     """
     This class represents the direct connection and communication between Arduino/Dobot and RPI
     """
     _SERIAL_PORT_PATH = '/dev/ttyACM0'
 
-    def __init__(self):
+    def __init__(self, id):
         self._serial_port = serial.Serial('/dev/ttyACM0', 115200)
+        self._init_serial(id)
 
     def send_all(self, moves):
         """
@@ -20,9 +22,9 @@ class Dobot:
         self._serial_port.write(sendMoves.encode())
         for move in moves:
             self.send_one(move)
-        #wait for arduino to process the move(s)
-        while(not movesProcessed):
-            if(self._serial_port.in_waiting > 0):
+        # wait for arduino to process the move(s)
+        while not movesProcessed:
+            if self._serial_port.in_waiting > 0:
                 line = self._serial_port.readline().decode('utf-8').rstrip()
                 print(line)
                 if line == "Finished":
@@ -34,8 +36,8 @@ class Dobot:
         """
         print(move)
         # Example input: [((0,3),(0,5))] = 'a2a4'.
-        for i in range(0,2):
-            for j in range (0,2):
+        for i in range(0, 2):
+            for j in range(0, 2):
                 moveString = "<" + str(move[i][j]) + ">"
                 print(moveString)
                 self._serial_port.write(moveString.encode())
@@ -53,14 +55,14 @@ class Dobot:
         """
         raise NotImplementedError("Please implement this method.")
 
-    def init_serial(self, gameID):
+    def _init_serial(self, gameID):
         """
         Initialize serial communication with Arduino.
         """
         arduinoReady = False
         print("Starting serial initialization")
-        while(not arduinoReady):
-            if(self._serial_port.in_waiting > 0):
+        while not arduinoReady:
+            if self._serial_port.in_waiting > 0:
                 line = self._serial_port.readline().decode('utf-8').rstrip()
                 print(line)
                 if line == "Ready":
