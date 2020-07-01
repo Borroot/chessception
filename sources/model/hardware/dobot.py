@@ -1,5 +1,5 @@
 import serial
-
+import time
 
 class Dobot:
     """
@@ -17,7 +17,6 @@ class Dobot:
         Before sending the moves, first send the number of moves that are going to be sent.
         """
         sendMoves = "<" + str(len(moves)) + ">"
-        print(sendMoves)
         movesProcessed = False
         self._serial_port.write(sendMoves.encode())
         for move in moves:
@@ -25,9 +24,9 @@ class Dobot:
         # wait for arduino to process the move(s)
         while not movesProcessed:
             if self._serial_port.in_waiting > 0:
-                line = self._serial_port.readline().decode('utf-8').rstrip()
-                print(line)
+                line = self._serial_port.readline().decode('ascii').rstrip()
                 if line == "Finished":
+                    print("Move processed")
                     movesProcessed = True
 
     def send_one(self, move):
@@ -39,8 +38,7 @@ class Dobot:
         for i in range(0, 2):
             for j in range(0, 2):
                 moveString = "<" + str(move[i][j]) + ">"
-                print(moveString)
-                self._serial_port.write(moveString.encode())
+                self._serial_port.write(moveString.encode('ascii'))
 
     def move(self, game):
         """
@@ -63,9 +61,10 @@ class Dobot:
         print("Starting serial initialization")
         while not arduinoReady:
             if self._serial_port.in_waiting > 0:
-                line = self._serial_port.readline().decode('utf-8').rstrip()
+                line = self._serial_port.readline().decode('ascii').rstrip()
                 print(line)
                 if line == "Ready":
                     arduinoReady = True
         firstContact = "<" + str(gameID) + ">"
-        self._serial_port.write(firstContact.encode())
+        self._serial_port.write(firstContact.encode('ascii'))
+        time.sleep(4)

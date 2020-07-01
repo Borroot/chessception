@@ -78,4 +78,4 @@ class Dobot(model.hardware.dobot.Dobot):
         self._x_stack = 5
         self._o_stack = 5
         self.send_all(moves)
-        self._serial_port.write("<GAME OVER>".encode())
+        self._serial_port.write("<GAME OVER>".encode('ascii'))

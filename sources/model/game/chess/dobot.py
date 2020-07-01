@@ -110,6 +110,6 @@ class Dobot(model.hardware.dobot.Dobot):
 
     def reset(self, game):
         # TODO: Rewrite more efficiently and fix taken pieces.
-        self._serial_port.write("<GAME OVER>".encode())
+        self._serial_port.write("<GAME OVER>".encode('ascii'))
         self._white_stack.clear()
         self._black_stack.clear()
