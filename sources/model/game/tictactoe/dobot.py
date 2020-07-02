@@ -72,10 +72,10 @@ class Dobot(model.hardware.dobot.Dobot):
 
     def reset(self, game):
         moves = []
+        self._serial_port.write("<GAME OVER>".encode('ascii'))
         for move, symbol in enumerate(game.board):
             self._update_stack(symbol, 1)
             moves.append((self._convert_move(move), self._next_stack(symbol)))
         self._x_stack = 5
         self._o_stack = 5
         self.send_all(moves)
-        self._serial_port.write("<GAME OVER>".encode('ascii'))
