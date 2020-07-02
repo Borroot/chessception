@@ -31,8 +31,10 @@ class Speech:
             return recognizer.recognize_google(audio, language='en-GB')
         except sr.UnknownValueError:
             print("Google Speech Recognition could not understand the audio.", file=sys.stderr)
+            return "None"
         except sr.RequestError as e:
             print("Could not request results from Google Speech Recognition service; {0}".format(e), file=sys.stderr)
+            return "No connection"
 
     @staticmethod
     def extract(transcript):

@@ -110,6 +110,6 @@ class Dobot(model.hardware.dobot.Dobot):
 
     def reset(self, game):
         # TODO: Put all pieces back to correct start position.
-        self._serial_port.write("<GAME OVER>".encode('ascii')
+        self._serial_port.write("<GAME OVER>".encode('ascii'))
         self._white_stack.clear()
         self._black_stack.clear()
