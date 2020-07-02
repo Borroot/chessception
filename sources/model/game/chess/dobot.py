@@ -57,9 +57,9 @@ class Dobot(model.hardware.dobot.Dobot):
         :return: A coordinate tuple.
         """
         if color == chess.WHITE:
-            return len(self._white_stack) % 8, 11 - int(len(self._white_stack) / 8)
-        else:  # color == chess.BLACK
             return len(self._black_stack) % 8, int(len(self._black_stack) / 8)
+        else: # color == chess.BLACK
+            return len(self._white_stack) % 8, 11 - int(len(self._white_stack) / 8)
 
     def _moves(self, game):
         """
@@ -109,7 +109,7 @@ class Dobot(model.hardware.dobot.Dobot):
         print("Black Stack:", self._black_stack)
 
     def reset(self, game):
-        # TODO: Rewrite more efficiently and fix taken pieces.
-        self._serial_port.write("<GAME OVER>".encode('ascii'))
+        # TODO: Put all pieces back to correct start position.
+        self._serial_port.write("<GAME OVER>".encode('ascii')
         self._white_stack.clear()
         self._black_stack.clear()
