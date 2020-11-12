@@ -27,7 +27,7 @@ class Game:
 
     def next(self, onturn, players):
         return (onturn + 1) % len(players)
-    
+
     def game_over(self):
         raise NotImplementedError("Please implement this method.")
 

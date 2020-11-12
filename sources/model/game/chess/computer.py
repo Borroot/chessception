@@ -8,7 +8,7 @@ class Computer(model.player.computer.Computer):
     """
 
     NUM_LEVELS = 5
-    _ENGINE_PATH = "/usr/games/stockfish"
+    _ENGINE_PATH = "/usr/bin/stockfish"
 
     def __init__(self, name, level):
         super().__init__(name, level)
